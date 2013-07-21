@@ -224,6 +224,10 @@ end
     end
     @html_title = "Layer "+ @layer.id.to_s + " " + @layer.name.to_s
 
+    #globally
+    @disabled_tabs += ["digitize","metadata", "comments"]
+
+
     if request.xhr?
       unless params[:page]
         @xhr_flag = "xhr"

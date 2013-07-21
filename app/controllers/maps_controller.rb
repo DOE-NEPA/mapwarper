@@ -478,6 +478,9 @@ class MapsController < ApplicationController
       end
     end
 
+    #for wikimaps disable some tabs all the time
+    @disabled_tabs += ["clip", "align", "metadata","comments", "activity"]
+
     @title = "Viewing original map. "
 
     if !@map.warped_or_published?
