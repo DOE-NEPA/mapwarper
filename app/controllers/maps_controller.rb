@@ -443,7 +443,7 @@ class MapsController < ApplicationController
     # Not Logged in users
     #
     if !logged_in?
-      @disabled_tabs = ["warp", "edit", "clip", "align", "activity"]
+      @disabled_tabs = ["warp", "edit", "clip", "align", "metadata","comments", "activity"]
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
