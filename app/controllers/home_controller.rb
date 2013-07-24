@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     get_news_feeds
 
     if logged_in?
-      @my_maps = current_user.maps.find(:all, :order => "updated_at DESC", :limit => 3)
+      @my_maps = nil #current_user.maps.find(:all, :order => "updated_at DESC", :limit => 3)
     end
     respond_to do |format|
       format.html # index.html.erb

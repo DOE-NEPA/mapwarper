@@ -35,19 +35,6 @@
     <% end -%>
     
     <span class="map_links">
-      <%- if logged_in? -%>
-        <%- if current_user.maps.include?(map) -%>
-          <%= link_to 'Remove from My Maps',
-            destroy_my_map_path(:user_id => current_user, :map_id => map),
-            :method => :post, :confirm => "really remove this map from your list?" -%>  |
-
-          <%- else -%>
-            <%= link_to 'Save to My Maps',
-              add_my_map_path(:user_id => current_user, :map_id => map),
-              :method => :post -%> | 
-            <%- end #if mymaps -%>
-            
-          <%- end # if logged in-%>
 
           <%- if map.status == :warped -%>
       <%- if admin_authorized? -%>
