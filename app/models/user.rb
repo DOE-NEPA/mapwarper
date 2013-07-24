@@ -29,6 +29,7 @@ class User < ActiveRecord::Base
   
    before_save :encrypt_password
    before_create :make_activation_code
+   before_create :auto_activate
 
    # prevents a user from submitting a crafted form that bypasses activation
    # anything else you want your user to change should be added here.
@@ -180,6 +181,11 @@ class User < ActiveRecord::Base
 
    def make_password_reset_code
       self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+   end
+   
+   def auto_activate
+    @activated = true
+    self.activated_at = Time.now.utc
    end
 
    

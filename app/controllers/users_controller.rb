@@ -90,10 +90,10 @@ class UsersController < ApplicationController
       @user.save!
       # Uncomment to have the user automatically
       # logged in after creating an account - Not Recommended
-      # self.current_user = @user
-      flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in. If you dont recieve an email, then %s"
-      flash[:notice_item] = ["click here to resend the email",
-        resend_activation_path] 
+      self.current_user = @user
+      flash[:notice] = "Thanks for signing up!"
+      #Please check your email to activate your account before logging in. If you dont recieve an email, then %s"
+      #flash[:notice_item] = ["click here to resend the email", resend_activation_path] 
       redirect_to login_path
    rescue ActiveRecord::RecordInvalid
       flash[:error] = "There was a problem creating your account."
