@@ -4,7 +4,7 @@ class WikimapsController < ApplicationController
   skip_before_filter :verify_authenticity_token
 
   def new
-    @html_title = "New wikimaps map " + params[:title]
+    @html_title = "New wikimaps map "
   end
 
   def create
