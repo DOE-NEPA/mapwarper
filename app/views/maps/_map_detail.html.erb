@@ -7,7 +7,7 @@
   </td>
   <td class="<%= cl %>">
     <span class="maplist_title">
-      <%=strip_brackets(h(map.title)) %>
+      <%=strip_brackets(h(URI.unescape(map.title))) %>
     </span>
    
     <br />

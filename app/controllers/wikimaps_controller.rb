@@ -8,16 +8,13 @@ class WikimapsController < ApplicationController
   end
 
   def create
-    image_title = params[:title]
-    image_title.gsub!(" ", "_")
+    image_url = URI.escape("https:"+ params[:path])
+    image_title = File.basename(image_url)
 
     if map = Map.find_by_unique_id(image_title)
       redirect_to map
       return
     end
-
-    hash = Digest::MD5.hexdigest(image_title)
-    image_url = "https://upload.wikimedia.org/wikipedia/commons/"+ hash[0...1] + "/"+ hash[0...2] + "/"+ image_title
 
     map = {
       :title => image_title,
