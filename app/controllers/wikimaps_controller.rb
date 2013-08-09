@@ -5,6 +5,16 @@ class WikimapsController < ApplicationController
 
   def new
     @html_title = "New wikimaps map "
+    if params[:path]
+      image_url = URI.escape("https:"+ params[:path])
+      @image_title = File.basename(image_url)
+
+      if map = Map.find_by_unique_id(@image_title)
+        redirect_to map
+        return
+      end
+    end
+
   end
 
   def create
