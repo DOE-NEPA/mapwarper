@@ -447,7 +447,7 @@ class MapsController < ApplicationController
       if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
         @disabled_tabs += ["warped"]
       end
-        flash.now[:notice] = "You may need to %s to start editing the map"
+        flash.now[:notice] = "%s to start editing"
         flash.now[:notice_item] = ["log in", new_session_path]
       if request.xhr?
         @xhr_flag = "xhr"
