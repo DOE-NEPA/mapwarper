@@ -1,6 +1,6 @@
 class WikimapsController < ApplicationController
   require 'digest/md5'
-  before_filter :login_or_oauth_required
+  before_filter :login_or_oauth_required, :except => [:new]
   skip_before_filter :verify_authenticity_token
 
   def new
@@ -10,9 +10,16 @@ class WikimapsController < ApplicationController
       @image_title = File.basename(image_url)
 
       if map = Map.find_by_unique_id(@image_title)
-        redirect_to map
-        return
-      end
+        
+        if map.warped_or_published?
+          redirect_to map_path(:id => map, :anchor => "Preview_Map_tab")
+        end
+        if logged_in?
+          redirect_to map_path(:id => map, :anchor => "Rectify_tab")
+        else
+          redirect_to map
+        end
+        end
     end
 
   end
