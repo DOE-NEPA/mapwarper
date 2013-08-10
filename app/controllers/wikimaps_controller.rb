@@ -2,7 +2,7 @@ class WikimapsController < ApplicationController
   require 'digest/md5'
   before_filter :login_or_oauth_required, :except => [:new]
   skip_before_filter :verify_authenticity_token
-
+  
   def new
     @html_title = "New wikimaps map "
     if params[:path]
@@ -13,8 +13,7 @@ class WikimapsController < ApplicationController
         
         if map.warped_or_published?
           redirect_to map_path(:id => map, :anchor => "Preview_Map_tab")
-        end
-        if logged_in?
+        elsif logged_in?
           redirect_to map_path(:id => map, :anchor => "Rectify_tab")
         else
           redirect_to map
