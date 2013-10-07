@@ -12,7 +12,7 @@ class HomeController < ApplicationController
                              :limit => 3, :include =>:gcps)
 
     @layers = Layer.find(:all,:order => "updated_at DESC", :limit => 3, :include=> :maps)
-    get_news_feeds
+    #get_news_feeds
 
     if logged_in?
       @my_maps = nil #current_user.maps.find(:all, :order => "updated_at DESC", :limit => 3)

@@ -121,7 +121,7 @@
   <%else-%>
     <body>
     <%end%>
-    <%= render :partial => 'shared/analyticstop' %>
+    <%# render :partial => 'shared/analyticstop' %>
     <div id="headerDiv" class="headerDiv">
       <h1><%= link_to "Wikimaps Warper", root_path %></h1>
       <%= render :partial => 'shared/header' %>
@@ -172,7 +172,7 @@
       <%= render :partial => 'shared/footer' %>
     </div>
 
-    <%= render :partial => 'shared/analyticsbottom', :locals => {
+    <%# render :partial => 'shared/analyticsbottom', :locals => {
             :map => @map, :current_tab => @current_tab
           } %>
   </body>
