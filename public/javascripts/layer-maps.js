@@ -25,8 +25,12 @@ function init(){
 
   layerMap = new OpenLayers.Map("map",options);
   mapnik_lay1 = mapnik.clone();
+#  gmr = googleMaps.clone();
+#  gmh = googleHybrid.clone();
+#  gms = googleSat.clone();
 
-  layerMap.addLayers([mapnik_lay1]);
+  layerMap.addLayers([mapnik_lay1, googleMaps,googleHybrid,googleSat]);
+#  layerMap.addLayers([mapnik_lay1,gmh,gms,gmr]);
 
   wmslayer =  new OpenLayers.Layer.WMS
   ( "Layer"+layer_id,

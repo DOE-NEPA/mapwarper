@@ -382,23 +382,23 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 a/*, a:link */{
-	color: #222;
+	color: #006600;
 	text-decoration: none;
 }
 
 a:hover {
-	color:#447a05;
+	color:#000;
 }
 
 
 
 h1 {
-	background: url(/images/header_logo.png) 0 50% scroll no-repeat; 
+	background: url(/images/nepanode_mapwarper.png) 0 50% scroll no-repeat; 
   padding: 10px 1em; 
 }
 
 h1 a, h1 a:link, h1 a:visited {
-	color: #000;
+	color: #006600;
 }
 
 .paraMargin {
@@ -423,8 +423,8 @@ p {
 }
 
 .buttonWarper, input[type="submit"], .headerDiv .user_status a  {
-	background: #191970;
- 	color:#e3e3d4;
+	background: #006600;
+ 	color:#fff;
 	font-weight: 600;
 	padding: 6px 6px 3px 6px; /*KAREN CHANGED AND REMOVED IMPORTANT*/
 	border-radius:4px;
@@ -440,12 +440,12 @@ p {
 }
 
 #warper-maindiv .buttonWarper {
-	background:#556b2f;
+	background:#006600;
 }
 
 #warper-maindiv .buttonWarper:hover {
-	color:#556b2f;
-	background: #E3E3D4;
+	color:#006600;
+	background: #fff;
 }
 
 input[type="text"], input[type="password"], select {
@@ -520,7 +520,7 @@ font-weight: strong;
 
 .headerDiv {
 	position: relative;
-	background: #e2dedb url(/images/header_bg.jpg) 0 -30px scroll; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
+	background: #333; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
 	padding: 2px 10px 0 10px;
 }
 
@@ -857,7 +857,7 @@ font-weight: bold;
 
 #navlist {
 	padding: 3px 0 0 1em;
-	border-bottom: 1px solid #999;
+	border-bottom: 4px solid #006600;
 	font-weight: bold;
 }
 
@@ -870,16 +870,16 @@ font-weight: bold;
 	margin-left: 3px;
 	border: 1px solid #999;
 	border-bottom: none;
-	background: #e3e3d4;
+	background: #fff;
 	text-decoration: none;
 	border-radius:4px 4px 0 0; /*added by karen*/
-	background: #ddd; /*KAREN CHANGED*/
-	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
+	background: #fff; /*KAREN CHANGED*/
+	background: #fff; /*KAREN ADDED*/
 }
 
 #navlist li a:hover {
-	background: #191970; /*KAREN CHANGED*/
-	color:#E3E3D4;
+	background: #006600; /*KAREN CHANGED*/
+	color:#fff;
 	-moz-transition:all 0.3s ease-in-out;
 	-webkit-transition:all 0.3s ease-in-out;
 	transition:all 0.3s ease-in-out;
@@ -887,9 +887,9 @@ font-weight: bold;
 }
 
 #navlist li span {
-	background: #191970; /*KAREN CHANGED*/
-	color:#E3E3D4;
-	border-bottom: 1px solid #191970;
+	background: #006600; /*KAREN CHANGED*/
+	color:#fff;
+	border-bottom: 1px solid #006600;
 }
 
 #footer {
@@ -943,11 +943,11 @@ thWidth. {
 }
 
 #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
-	background: #EEEEE0;
+	background: #fff;
 }
 
 #map_table tr:nth-of-type(even), #layer_table tr:nth-of-type(even) {
-	background: #e5e5d5;
+	background: #fff;
 }
 
 #map_table td, #map_table th, #layer_table td, #layer_table th {
@@ -974,12 +974,12 @@ thWidth. {
 
 
 #map_table th, #layer_table th {
-	background: #999;
+	background: #000;
 	color: #fff;
 }
 
 #map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
-	background: #888;
+	background: #000;
 }
 
 #map_table a img, #layer_table a img, #results a img {
@@ -1352,7 +1352,7 @@ div.olControlMousePosition
 	font-family:Vidaloka, Georgia, "Times New Roman", Times, serif;
 	margin-left:20px;
 	line-height: 1;
-    padding: 8px 0 7px 60px !important;
+    padding: 90px 0 7px 60px !important;
 }
 
 .breadCrumb {

@@ -1,8 +1,9 @@
 # Settings specified here will take precedence over those in config/environment.rb
-SITE_URL = "local.mapwarper.net"
-SITE_NAME = "map warper"
-SITE_EMAIL = "robot@mapwarper.net"
-MAPSERVER_URL = "/mapserv"  #url to the mapserv executable
+SITE_URL = "ec2-54-88-236-178.compute-1.amazonaws.com"
+
+SITE_NAME = "DOE MapWarper [DEVELOPMENT]"
+SITE_EMAIL = "nepanodewarper@gmail.com"
+MAPSERVER_URL = "/home/ubuntu/mapwarper/public/cgi/mapserv"  #url to the mapserv executable
 
 #paths to directories to put various files in
 #SRC_MAPS_DIR = "/var/lib/maps/src/"
@@ -21,7 +22,7 @@ GOOGLE_MAPS_KEY="AIzaSyC6Kf3DDfInm8tTeK9e5VjZbkvAn4nQLmI"
 # every request.  This slows down response time but is perfect for development
 # since you don't have to restart the webserver when you make code changes.
 
-#if we want auditing in dev mode, we gotta set these to true see above# it sucks for dev. 
+#if we want auditing in dev mode, we gotta set these to true see above# it sucks for dev.
 config.cache_classes = false
 config.action_controller.perform_caching             = false
 
@@ -31,16 +32,15 @@ config.whiny_nils = true
 
 # Show full error reports and disable caching
 config.action_controller.consider_all_requests_local = true
+#config.action_view.debug_rjs                         = false
 config.action_view.debug_rjs                         = true
 
 
-# Don't care if the mailer can't send
-config.action_mailer.raise_delivery_errors = false
-
 #GDAL_PATH  = "/home/tim/bin/FWTools-2.0.6/bin_safe/"
-GDAL_PATH  = ""
+GDAL_PATH  = "/home/ubuntu/FWTools-2.0.6/bin_safe/"
 GOOGLE_ANALYTICS_CODE = "UA-12240034-2"
 GOOGLE_ANALYTICS_COOKIE_PATH = "/warper-dev/"
 Yahoo_app_id = "lbQ2VNLV34EoEmxF9dguamWEFSXjI7adJ.ACHkdChT2JGmQ0Bj.jP1cF0nmh5XP3"
 ADDTHIS_USER = "timwaters"
 ADDTHIS_TWITTER_USER = "mapwarper"
+
