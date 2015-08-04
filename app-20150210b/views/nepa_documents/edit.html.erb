@@ -1,0 +1,45 @@
+<h2>Editing NEPA Document</h2>
+
+<% form_for(@nepa_document) do |f| %>
+	<%= f.error_messages %>
+
+	<table class="table">
+
+		<tr><td>Document No.:</td><td><%= f.text_field :document_no, :class => "form-control" %></td></tr>
+		<tr><td>title:</td><td><%= f.text_field :title, :class => "form-control" %></td></tr>
+		<tr><td>review_type_id:</td><td><%= f.text_field :review_type_id, :class => "form-control" %></td></tr>
+		<tr><td>site_id:</td><td><%= f.text_field :site_id, :class => "form-control" %></td></tr>
+		<tr><td>program_id:</td><td><%= f.text_field :program_id, :class => "form-control" %></td></tr>
+		<tr><td>field_office_id:</td><td><%= f.text_field :field_office_id, :class => "form-control" %></td></tr>
+		<tr><td>is_adopted:</td><td><%= f.text_field :is_adopted, :class => "form-control" %></td></tr>
+		<tr><td>intended_to_be_adopted:</td><td><%= f.text_field :intended_to_be_adopted, :class => "form-control" %></td></tr>
+		<tr><td>comments:</td><td><%= f.text_field :comments, :class => "form-control" %></td></tr>
+		<tr><td>entry_dt:</td><td><%= f.text_field :entry_dt, :value => @nepa_document.entry_dt.try(:strftime, '%m/%d/%Y'), :class => "nepa_datepicker form-control" %></td></tr>
+		<tr><td>verified:</td><td><%= f.text_field :verified, :class => "form-control" %></td></tr>
+		<tr><td>web_link:</td><td><%= f.text_field :web_link, :class => "form-control" %></td></tr>
+		<tr><td>is_in_doe_hq_archive_library:</td><td><%= f.text_field :is_in_doe_hq_archive_library, :class => "form-control" %></td></tr>
+		<tr><td>is_in_doe_hq_archive_library_incomplete:</td><td><%= f.text_field :is_in_doe_hq_archive_library_incomplete, :class => "form-control" %></td></tr>
+		<tr><td>mitigation_action_plan:</td><td><%= f.text_field :mitigation_action_plan, :class => "form-control" %></td></tr>
+		<tr><td>document_start_date:</td><td><%= f.text_field :document_start_date, :value => @nepa_document.document_start_date.try(:strftime, '%m/%d/%Y'), :class => "nepa_datepicker form-control" %></td></tr>
+		<tr><td>document_end_date:</td><td><%= f.text_field :document_end_date, :value => @nepa_document.document_end_date.try(:strftime, '%m/%d/%Y'), :class => "nepa_datepicker form-control" %></td></tr>
+		<tr><td>contractor:</td><td><%= f.text_field :contractor, :class => "form-control" %></td></tr>
+		<tr><td>cancel_dt:</td><td><%= f.text_field :cancel_dt, :value => @nepa_document.cancel_dt.try(:strftime, '%m/%d/%Y'), :class => "nepa_datepicker form-control" %></td></tr>
+
+		<% # BWE DEBUG  %>
+		<% if false %>
+		<!-- <tr><td>ID:</td><td><%= @nepa_document.id %></td></tr> -->
+		<!-- <tr><td>Initial ID:</td><td><%= @nepa_document.document_id_initial %></td></tr> -->
+		<tr><td>doctype_cd:</td><td><%= f.text_field :doctype_cd %></td></tr>
+		<tr><td>document_no_published_as:</td><td><%= f.text_field :document_no_published_as %></td></tr>
+		<tr><td>document_no_adopted:</td><td><%= f.text_field :document_no_adopted %></td></tr>
+		<tr><td>nepa_phase_id:</td><td><%= f.text_field :nepa_phase_id %></td></tr>
+		<tr><td>is_doe_wide_contract:</td><td><%= f.text_field :is_doe_wide_contract %></td></tr>
+		<tr><td>cover_date:</td><td><%= f.text_field :cover_date %></td></tr>
+		<tr><td>publish_dt:</td><td><%= f.text_field :publish_dt %></td></tr>
+		<% end %>
+	</table>
+	<p><%= f.submit 'Update', :class => "btn btn-primary" %></p>
+<% end %>
+
+<% #= link_to 'Show', @nepa_document %> |
+<% #= link_to 'Back', nepa_documents_path %>

@@ -1,0 +1,2 @@
+module NepaLookupMilestonesHelper
+end

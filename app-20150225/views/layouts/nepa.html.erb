@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	  <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title><%= h(@html_title) || ''-%> NEPA Map Warper </title>
+
+		<link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
+
+		<%= yield :head %>
+
+
+    <!-- Bootstrap core CSS -->
+    <%= stylesheet_link_tag "bootstrap.min" %>
+    <!-- Custom styles for this template -->
+    <%= stylesheet_link_tag "navbar-fixed-top" %>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+
+    <%= stylesheet_link_tag "datepicker3" %>
+
+	</head>
+
+
+
+	<body>
+    <%= render :partial => 'shared/nav' %>
+
+
+    <div class="container">
+
+      <% if @show_nepa_document_link %>
+      <br/>
+      <p>
+          NEPA Document:
+            <%=
+              link_to "{{ " + ( @nepa_document.document_no ? @nepa_document.document_no.to_s : "[Please enter a document number]" )+ " }} {{ " + ( @nepa_document.title ? @nepa_document.title : "[Please enter a document title]" ) + " }}", nepa_document_path(@nepa_document)
+            %>
+      </p>
+      <% end %>
+
+      <!-- messages -->
+      <% unless flash.empty? %>
+      <div class="alert alert-warning" role="alert">
+        <% flash.each do |key, value| %>
+        <div class="flash <%= key %>"><%= value %></div>
+        <% end %>
+      </div>
+      <% end %>
+      <!-- Main Content -->
+      <%= yield %>
+
+
+    </div> <!-- /container -->
+
+    <%= render :partial => 'shared/footer' %>
+
+    <%= render :partial => 'shared/analytics' %>
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <%= javascript_include_tag "jquery-1.11.1.min.js" %>
+    <%= javascript_include_tag "bootstrap.min.js" %>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <%= javascript_include_tag "ie10-viewport-bug-workaround.js" %>
+
+    <%= javascript_include_tag "bootstrap-datepicker.js" %>
+
+    <script language="javascript" type="text/javascript">
+    $( document ).ready(function() {
+
+      $(".nepa_datepicker").datepicker({format: "mm/dd/yyyy"});
+      //$(".nepa_datepicker").datepicker({format: "yyyy-mm-dd"});
+      //$(".nepa_datepicker").datepicker("update", new Date());
+
+  });
+  </script>
+
+	</body>
+</html>

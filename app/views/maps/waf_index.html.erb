@@ -1,0 +1,23 @@
+
+  <h1>Index of /waf</h1>
+  <table><tr><th><img src="http://schemas.opengis.net/icons/blank.gif" alt="[ICO]"></th><th><a href="?C=N;O=D">Name</a></th><th><a href="?C=M;O=A">Last modified</a></th><th><a href="?C=S;O=A">Size</a></th><th><a href="?C=D;O=A">Description</a></th></tr><tr><th colspan="5"><hr></th></tr>
+    <tr><td valign="top"><img src="http://schemas.opengis.net/icons/back.gif" alt="[DIR]"></td><td><%= link_to "Parent Directory", url_for(:controller => 'home', :action => 'index') %></td><td>&nbsp;</td><td align="right">  - </td><td>&nbsp;</td></tr>
+
+    <% @maps.each do | map | -%>
+      <tr><td valign="top"><img src="http://schemas.opengis.net/icons/text.gif" alt="[TXT]"></td><td>
+
+        <%= link_to map.title, waf_show_path(map.id) %>
+
+      </td><td align="right">1-Jul-2009 09:15</td><td align="right">1.23K</td><td>&nbsp;</td></tr>
+    <% end %>
+
+<% if false %>
+    <tr><td valign="top"><img src="http://schemas.opengis.net/icons/folder.gif" alt="[DIR]"></td><td><a href="1.0/">1.0/</a></td><td align="right">21-Jul-2012 22:59  </td><td align="right">  - </td><td>&nbsp;</td></tr>
+    <tr><td valign="top"><img src="http://schemas.opengis.net/icons/text.gif" alt="[TXT]"></td><td><a href="ReadMe.txt">ReadMe.txt</a></td><td align="right">21-Jul-2012 21:36  </td><td align="right">1.7K</td><td>&nbsp;</td></tr>
+    <tr><td valign="top"><img src="http://schemas.opengis.net/icons/compressed.gif" alt="[   ]"></td><td><a href="wmts-1_0_0.zip">wmts-1_0_0.zip</a></td><td align="right">05-May-2010 14:48  </td><td align="right"> 30K</td><td>&nbsp;</td></tr>
+    <tr><td valign="top"><img src="http://schemas.opengis.net/icons/compressed.gif" alt="[   ]"></td><td><a href="wmts-1_0_1.zip">wmts-1_0_1.zip</a></td><td align="right">28-Aug-2012 15:29  </td><td align="right"> 30K</td><td>&nbsp;</td></tr>
+<% end %>
+
+    <tr><th colspan="5"><hr></th></tr>
+  </table>
+

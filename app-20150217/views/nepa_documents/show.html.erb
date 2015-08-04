@@ -1,0 +1,56 @@
+<h2>Viewing NEPA Document</h2>
+
+<table class="table">
+	<tr><td>doctype_no:</td><td><%= @nepa_document.document_no %></td></tr>
+	<tr><td>title:</td><td><%= @nepa_document.title %></td></tr>
+	<tr><td>review_type_id:</td><td><%= @nepa_document.review_type_id %></td></tr>
+	<tr><td>site_id:</td><td><%= @nepa_document.site_id %></td></tr>
+	<tr><td>program_id:</td><td><%= @nepa_document.program_id %></td></tr>
+	<tr><td>field_office_id:</td><td><%= @nepa_document.field_office_id %></td></tr>
+	<tr><td>is_adopted:</td><td><%= @nepa_document.is_adopted %></td></tr>
+	<tr><td>intended_to_be_adopted:</td><td><%= @nepa_document.intended_to_be_adopted %></td></tr>
+	<tr><td>comments:</td><td><%= @nepa_document.comments %></td></tr>
+	<tr><td>entry_dt:</td><td><%= @nepa_document.entry_dt.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>verified:</td><td><%= @nepa_document.verified %></td></tr>
+	<tr><td>web_link:</td><td><%= @nepa_document.web_link %></td></tr>
+	<tr><td>is_in_doe_hq_archive_library:</td><td><%= @nepa_document.is_in_doe_hq_archive_library %></td></tr>
+	<tr><td>is_in_doe_hq_archive_library_incomplete:</td><td><%= @nepa_document.is_in_doe_hq_archive_library_incomplete %></td></tr>
+	<tr><td>mitigation_action_plan:</td><td><%= @nepa_document.mitigation_action_plan %></td></tr>
+	<tr><td>document_start_date:</td><td><%= @nepa_document.document_start_date.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>document_end_date:</td><td><%= @nepa_document.document_end_date.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>contractor:</td><td><%= @nepa_document.contractor %></td></tr>
+	<tr><td>cancel_dt:</td><td><%= @nepa_document.cancel_dt.try(:strftime, '%m/%d/%Y') %></td></tr>
+
+	<% # BWE DEBUG  %>
+	<% if false %>
+	<!-- <tr><td>ID:</td><td><%= @nepa_document.id %></td></tr> -->
+	<!-- <tr><td>Initial ID:</td><td><%= @nepa_document.document_id_initial %></td></tr> -->
+	<tr><td>doctype_cd:</td><td><%= @nepa_document.doctype_cd %></td></tr>
+	<tr><td>document_no_published_as:</td><td><%= @nepa_document.document_no_published_as %></td></tr>
+	<tr><td>document_no_adopted:</td><td><%= @nepa_document.document_no_adopted %></td></tr>
+	<tr><td>nepa_phase_id:</td><td><%= @nepa_document.nepa_phase_id %></td></tr>
+	<tr><td>is_doe_wide_contract:</td><td><%= @nepa_document.is_doe_wide_contract %></td></tr>
+	<tr><td>cover_date:</td><td><%= @nepa_document.cover_date %></td></tr>
+	<tr><td>publish_dt:</td><td><%= @nepa_document.publish_dt %></td></tr>
+	<% end %>
+
+</table>
+
+<%= link_to "View NEPA Milestones", nepa_document_nepa_milestones_path(@nepa_document), :class => "btn btn-default", :role => "button" %>
+<% if logged_in? && current_user.nepa_admin? %>
+<%= link_to 'Edit this NEPA Document', edit_nepa_document_path(@nepa_document), :class => "btn btn-default", :role => "button" %>
+<% end %>
+
+<%=
+	if @nepa_document.map_id.nil?
+		if logged_in? && current_user.nepa_admin?
+			link_to "Assign to Map", assign_nepa_document_path(@nepa_document), :class => "btn btn-default", :role => "button"
+		end
+	else
+		link_to 'View Associated Map', map_path(@nepa_document.map_id), :class => "btn btn-default", :role => "button"
+	end
+%>
+
+
+<% #= link_to 'Show', @nepa_document %> |
+<% #= link_to 'Back', nepa_documents_path %>

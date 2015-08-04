@@ -1,0 +1,24 @@
+<%= link_to "&lt; Back", :back %>
+
+<h2>My Maps for <%= @user.login %></h2>
+<p>
+Showing list of maps saved or edited by a user.
+</p>
+
+<%= will_paginate @mymaps, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+
+<table class="table">
+    <thead>
+      <tr>
+      <th>Map</th>
+      <th>Title</th>
+      <th>Last modified</th>
+      <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    <%= render :partial => 'maps/map', :collection => @mymaps unless @mymaps.nil? %>
+  </tbody>
+</table>
+
+<%= will_paginate @mymaps, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>

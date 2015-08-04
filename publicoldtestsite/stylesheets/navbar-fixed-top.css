@@ -1,0 +1,17 @@
+body {
+  padding-top: 50px;
+}
+
+a {color:#006600;}
+a:hover {color:#006600;}
+
+footer{margin:40px 0;}
+
+footer div.well {
+  padding:20px 40px;
+  background:#eee url(http://warp.nepanode.anl.gov/images/nepanode_mapwarper.png) bottom left no-repeat;
+}
+
+footer div.well h4 {border-bottom:1px solid #ddd;}
+
+footer div.well p {padding:0 20px;}

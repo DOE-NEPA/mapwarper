@@ -1,0 +1,15 @@
+<h2>New nepa_lookup_milestone</h2>
+
+<% form_for(@nepa_lookup_milestone) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :milestone_id_initial %><br />
+    <%= f.text_field :milestone_id_initial %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', nepa_lookup_milestones_path %>

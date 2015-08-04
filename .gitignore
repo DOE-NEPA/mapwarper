@@ -5,6 +5,8 @@ tmp/
 doc/api
 doc/app
 .svn
+public-productionbackup-20141007/
+public-productionbackup-20141030/
 config/*deploy.rb
 !config/example_deploy.rb
 config/database.yml

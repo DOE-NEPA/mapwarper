@@ -1,0 +1,50 @@
+<h2>New NEPA Document</h2>
+
+<% form_for(@nepa_document) do |f| %>
+  <%= f.error_messages %>
+
+
+	<table id="map_table" cellpadding="3">
+
+		<tr><td>Document No.:</td><td><%= f.text_field :document_no %></td></tr>
+
+		<tr><td>title:</td><td><%= f.text_field :title %></td></tr>
+		<tr><td>review_type_id:</td><td><%= f.text_field :review_type_id %></td></tr>
+		<tr><td>site_id:</td><td><%= f.text_field :site_id %></td></tr>
+		<tr><td>program_id:</td><td><%= f.text_field :program_id %></td></tr>
+		<tr><td>field_office_id:</td><td><%= f.text_field :field_office_id %></td></tr>
+
+		<tr><td>is_adopted:</td><td><%= f.text_field :is_adopted %></td></tr>
+		<tr><td>intended_to_be_adopted:</td><td><%= f.text_field :intended_to_be_adopted %></td></tr>
+		<tr><td>comments:</td><td><%= f.text_field :comments %></td></tr>
+		<tr><td>entry_dt:</td><td><%= f.text_field :entry_dt %></td></tr>
+		<tr><td>verified:</td><td><%= f.text_field :verified %></td></tr>
+		<tr><td>web_link:</td><td><%= f.text_field :web_link %></td></tr>
+		<tr><td>is_in_doe_hq_archive_library:</td><td><%= f.text_field :is_in_doe_hq_archive_library %></td></tr>
+		<tr><td>is_in_doe_hq_archive_library_incomplete:</td><td><%= f.text_field :is_in_doe_hq_archive_library_incomplete %></td></tr>
+		<tr><td>mitigation_action_plan:</td><td><%= f.text_field :mitigation_action_plan %></td></tr>
+		<tr><td>document_start_date:</td><td><%= f.text_field :document_start_date %></td></tr>
+		<tr><td>document_end_date:</td><td><%= f.text_field :document_end_date %></td></tr>
+		<tr><td>contractor:</td><td><%= f.text_field :contractor %></td></tr>
+		<tr><td>cancel_dt:</td><td><%= f.text_field :cancel_dt %></td></tr>
+
+    <% # BWE DEBUG  %>
+    <% if false %>
+    <!-- <tr><td>ID:</td><td><%= @nepa_document.id %></td></tr> -->
+    <!-- <tr><td>Initial ID:</td><td><%= @nepa_document.document_id_initial %></td></tr> -->
+    <tr><td>doctype_cd:</td><td><%= f.text_field :doctype_cd %></td></tr>
+    <tr><td>document_no_published_as:</td><td><%= f.text_field :document_no_published_as %></td></tr>
+    <tr><td>document_no_adopted:</td><td><%= f.text_field :document_no_adopted %></td></tr>
+    <tr><td>nepa_phase_id:</td><td><%= f.text_field :nepa_phase_id %></td></tr>
+    <tr><td>is_doe_wide_contract:</td><td><%= f.text_field :is_doe_wide_contract %></td></tr>
+    <tr><td>cover_date:</td><td><%= f.text_field :cover_date %></td></tr>
+    <tr><td>publish_dt:</td><td><%= f.text_field :publish_dt %></td></tr>
+    <% end %>
+	</table>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', nepa_documents_path %>

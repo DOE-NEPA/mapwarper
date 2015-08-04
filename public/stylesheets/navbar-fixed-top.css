@@ -1,0 +1,67 @@
+body {
+  /*min-height: 2000px;*/
+  padding-top: 50px;
+}
+
+a {color:#006600;}
+a:hover {color:#006600;}
+
+footer{margin:40px 0;}
+
+footer div.well {
+  padding:20px 40px;
+  background:#eee url(http://warp.nepanode.anl.gov/images/nepanode_mapwarper.png) bottom left no-repeat;
+}
+
+footer div.well h4 {border-bottom:1px solid #ddd;}
+
+footer div.well p {padding:0 20px;}
+
+/* updates from John */
+.navbar-default .navbar-nav>li>a {
+color: #006600;
+}
+
+.btn-default {
+color: #006600;
+background-color: #e6e6e6;
+border-color: #006600;
+}
+
+.btn-primary {
+color: #fff;
+background-color: #006600;
+border-color: #fff;
+}
+
+.btn-primary:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+color: #006600;
+background-color: #e6e6e6;
+border-color: #006600;
+}
+
+.btn-default:hover, .btn-default:focus, .btn-default.focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
+color: #fff;
+background-color: #006600;
+border-color: #fff;
+}
+
+pagination>li>a, .pagination>li>span {
+color: #006600;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+color: #fff;
+background-color: #006600;
+border-color: #006600;
+}
+
+
+.btn-warning {
+color: #f6921e;
+}
+
+.btn-danger {
+color: #f6921e;
+}
+

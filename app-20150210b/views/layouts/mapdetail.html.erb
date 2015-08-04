@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <title>Map Warper: <%= h(snippet(@html_title, 40)) || ''-%> </title>
+
+
+
+        <%= stylesheet_link_tag "custom-theme/jquery-ui-1.7.custom.css" %>
+        <%= stylesheet_link_tag "openlayers/theme/default/style" %>
+        <%= stylesheet_link_tag "styles_1" %>
+
+<% # BWE DEBUG  %>
+<% if false %>
+<%= stylesheet_link_tag "tabs" %>
+<% end %>
+
+
+        <!-- Bootstrap core CSS -->
+        <%= stylesheet_link_tag "bootstrap.min" %>
+        <!-- Custom styles for this template -->
+        <%= stylesheet_link_tag "navbar-fixed-top" %>
+
+        <%= stylesheet_link_tag "datepicker3" %>
+
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+    <%= yield :head %>
+  </head>
+
+<% if @onload -%>
+<body onload="<%=@onload%>">
+<%else-%>
+<body>
+<%end%>
+
+    <%= render :partial => 'shared/analyticstop' %>
+
+    <%= render :partial => 'shared/nav' %>
+
+    <div class="container">
+
+        <%= render :partial => 'maps/map_detail', :object => @map, :locals => {:variety => "detail"} %>
+
+
+
+
+    <% @tabs = [{:name=>"show",:divname=>"Show", :label=>"Show", :path=>map_path},
+       {:name=>"edit",:divname=>"Edit", :label=>"Edit", :path=>edit_map_path(:id => @map)},
+      {:name=>"warp",:divname=>"Rectify", :label=>"Rectify", :path=>warp_map_path(:id => @map)},
+      {:name=>"clip",:divname=>"Crop", :label=>"Crop", :path=>clip_map_path(:id => @map)},
+      {:name=>"align",:divname=>"Align", :label=>"Align", :path=>align_map_path(:id => @map)},
+      {:name=>"warped",:divname=>"Preview_Rectified_Map", :label=>"Preview Map", :path=>warped_map_path(:id => @map)},
+      {:name=>"export",:divname=>"Export", :label=>"Export", :path=>export_map_path(:id => @map)},
+      {:name=>"metadata",:divname=>"Metadata", :label=>"Metadata", :path=>metadata_map_path(:id => @map)},
+      {:name=>"activity",:divname=>"Activity_History", :label=>"Activity",:path=> map_activity_path(:id => @map)},
+      {:name=>"comments",:divname=>"Comments", :label=>"Comments", :count=>@map.comments.size.to_s, :path=>comments_map_path(:id => @map)}  ] %>
+
+    <div id="wooTabs" style="border:none;">
+      <ul style="background:none;border:none;border-bottom:1px solid #ccc;margin:0 20px;">
+        <% @tabs.each do |tab| %>
+          <% if @current_tab == tab[:name] %>
+            <% tab[:path] = "#"+tab[:divname]  %>
+            <% @current_tab_divname = tab[:divname] %>
+          <% end %>
+          <% unless @disabled_tabs && @disabled_tabs.include?(tab[:name]) -%>
+           <li><a id="aa<%=tab[:label]%>" rel="history" href="<%=tab[:path]%>" title="<%=tab[:label]%>">
+           <span><%=tab[:label]%><% if tab[:count] -%> (<%=tab[:count]-%>)<%end-%></span>
+           </a></li>
+          <% end -%>
+        <% end -%>
+      </ul>
+      <div id="<%=@current_tab_divname %>" >
+        <%= flash_messages %>
+        <%= yield %>
+      </div>
+
+    </div>
+
+    <div id="panel-under-tabs">
+
+    </div>
+
+
+   </div><!--/container-->
+
+
+    <%= render :partial => 'shared/footer' %>
+
+    <%= render :partial => 'shared/analyticsbottom', :locals => {
+            :map => @map, :current_tab => @current_tab
+          } %>
+
+
+
+          <!-- ==================================================================================================== -->
+          <%= javascript_include_tag "jquery-1.3.2.min.js" %>
+          <%= javascript_tag "$jq_old = jQuery.noConflict(true);" -%>
+          <script type="text/javascript">
+          var jq_old_browser = $jq_old.browser;
+          //this is for jquery.history-warper.js which uses the pre jQuery 1.9 browser object
+          </script>
+          <!-- ==================================================================================================== -->
+
+
+          <!-- Bootstrap core JavaScript ========================================================================== -->
+          <!-- Placed at the end of the document so the pages load faster -->
+          <%= javascript_include_tag "jquery-1.11.1.min.js" %>
+          <%= javascript_include_tag "bootstrap.min.js" %>
+          <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+          <%= javascript_include_tag "ie10-viewport-bug-workaround.js" %>
+          <%= javascript_include_tag "bootstrap-datepicker.js" %>
+          <!-- ==================================================================================================== -->
+
+          <!-- ==================================================================================================== -->
+          <% # BWE DEBUG - jquery.history-warper.js and jquery-ui-1.7.custom.min.js modified to use jq_old_browser from an old jQuery instead of the newer one which no longer offers the browser object  %>
+          <%= javascript_include_tag "jquery.history-warper.js" %>
+          <%= javascript_include_tag "jquery-ui-1.7.warper.min.js" -%>
+          <!-- ==================================================================================================== -->
+
+          <%= javascript_include_tag "jquery-warper" -%>
+          <%= javascript_tag "jQuery.noConflict();" -%>
+
+          <% # BWE DEBUG  %>
+          <% if false %>
+          <script src="http://code.jquery.com/jquery-migrate-1.1.1.js"></script>
+          <%= javascript_include_tag "jquery-ui-1.7.custom.min.js" -%>
+          <%= javascript_include_tag "jquery-ui-1.11.2.min.js" -%>
+          <% end %>
+
+
+          <%= javascript_include_tag "prototype" %>
+
+
+          <script type="text/javascript">
+
+          // COPIED FROM http://stackoverflow.com/questions/19139063/twitter-bootstrap-3-dropdown-menu-disappears-when-used-with-prototype-js
+
+          (function() {
+            var isBootstrapEvent = false;
+            if (window.jQuery) {
+              var all = jQuery('*');
+              jQuery.each(['hide.bs.dropdown',
+              'hide.bs.collapse',
+              'hide.bs.modal',
+              'hide.bs.tooltip',
+              'hide.bs.popover'], function(index, eventName) {
+                all.on(eventName, function( event ) {
+                  isBootstrapEvent = true;
+                });
+              });
+            }
+            var originalHide = Element.hide;
+            Element.addMethods({
+              hide: function(element) {
+                if(isBootstrapEvent) {
+                  isBootstrapEvent = false;
+                  return element;
+                }
+                return originalHide(element);
+              }
+            });
+          })();
+          </script>
+
+
+
+          <!--
+          <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=GOOGLE_MAPS_KEY-%>" type="text/javascript"></script>
+          <script src="http://maps.google.com/maps?file=api&v=2&sensor=false"></script>
+        -->
+        <%=
+        ### ------------------------------------------------------------------------------------------------------------------------ ###
+        ### BWE update - added google maps
+        ### ------------------------------------------------------------------------------------------------------------------------ ###
+        %>
+        <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;sensor=false&amp;key=<%=GOOGLE_MAPS_KEY-%>" type="text/javascript"></script>
+
+
+        <%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+        <%# javascript_include_tag "openlayers/OpenLayers-dev" -%>
+        <%= javascript_include_tag "layers" %>
+
+
+          <script type="text/javascript">
+          OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
+          var addthis_share =  {  templates: { twitter: '{{url}} (from @<%=ADDTHIS_TWITTER_USER%>)' } };
+          var addthis_config = {  ui_click : true    };
+
+
+          jQuery(function() {
+            jQuery("#wooTabs").tabs({selected:<%=@selected_tab||0 %> });
+            jQuery("#wooTabs").bind("tabsselect", function(event, ui){
+              if (typeof(pageTracker) !== 'undefined'){
+                pageTracker._trackEvent("Map", ui.tab.title, '<%=@map.id%>');
+              }
+            });
+
+            jQuery('#wooTabs').tabs('option', 'cache', true);
+
+            jQuery("#wooTabs").bind("tabsshow", function(event, ui){
+              if (ui.panel.id == "Rectify"){
+                if (typeof to_map != 'undefined'){
+                  to_map.updateSize();
+                  from_map.updateSize();
+                }
+              }
+              if (ui.panel.id == "Preview_Rectified_Map"){
+                if (typeof warpedmap != 'undefined') {
+                  warpedmap.updateSize();
+                }
+              }
+
+              if (ui.panel.id == "Crop"){
+                if (typeof clipmap != 'undefined') {
+                  clipmap.updateSize();
+                }
+              }
+
+              if (ui.panel.id == "Show"){
+                if (typeof umap != 'undefined'){
+                  umap.div.style.width = "100%";
+                  umap.updateSize();
+                }
+              }
+              if (ui.panel.id == "Activity_History"){
+
+              }
+
+              //this xhrFlag should only be present in a ajax response
+              //so if its missing, rails has borked and we need to reload page to see tabs
+              //  if (typeof xhrFlag == 'undefined') {
+              //reload page
+              //     location.reload();
+              //   }else{
+              //do nowt
+              //  }
+
+            }); //end tabshow
+
+          });//end jquery function
+
+        </script>
+        <script type="text/javascript">
+          // PageLoad function
+          // This function is called when  1. after calling $.historyInit(); 2. after calling $.historyLoad(); 3. after pushing "Go Back" button of a browser
+          var tabSuffix = "_tab"; //suffix to be added to link to stop jumping
+          function pageload(hash) {
+            if(hash) {
+              // restore ajax loaded state
+              // BWE UPDATE - change jQuery.browser to jq_old_browser to use old jQuery
+              if(/*jQuery.browser.msie*/ jq_old_browser.msie) {
+                // jquery's $.load() function does't work when hash include special characters like aao.
+                hash = encodeURIComponent(hash);
+              }
+              hash = hash.slice(0, -tabSuffix.length)
+              jQuery("#wooTabs").tabs("select", hash);
+            } else {
+              //if there is no hash, wat to do? currently, nothing, as by default it should be displayed tab.
+              //show tab  //jQuery("#wooTabs").tabs("select", 0);
+            }
+          }
+
+          jQuery(document).ready(function(){
+
+            jQuery(".nepa_datepicker").datepicker({format: "yyyy-mm-dd"});
+
+            jQuery.historyInit(pageload); //TODO
+
+            // set onlick event for buttons
+            jQuery("a[rel='history']").click(function(){
+              //
+              var hash = this.href;
+              hash = hash.replace(/^.*#/, '') + tabSuffix;
+
+              jQuery.historyLoad(hash);
+            });
+          });
+        </script>
+
+
+  </body>
+</html>

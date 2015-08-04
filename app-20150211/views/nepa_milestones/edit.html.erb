@@ -1,0 +1,43 @@
+<h2>Edit NEPA Milestone</h2>
+
+<% form_for(@nepa_milestone, url: nepa_document_nepa_milestone_path) do |f| %>
+	<%= f.error_messages %>
+
+	<table class="table">
+
+		<tr><td>Milestone Type</td>
+			<td>
+				<%= select("nepa_milestone", "nepa_lookup_milestone_id", NepaLookupMilestone.all.collect {|nlm| [ nlm.milestone, nlm.id ] }) %>
+
+<% # BWE DEBUG %>
+<% if false %>
+<p>current m_type<%= f.text_field :milestone_type %></p>
+<p>current NLM: <%= @nepa_milestone.nepa_lookup_milestone.milestone %></p>
+<p>nepa_milestone.nepa_lookup_milestone_id: <%= @nepa_milestone.nepa_lookup_milestone_id %></p>
+<p>nepa_milestone.nepa_lookup_milestone.id: <%= @nepa_milestone.nepa_lookup_milestone.id %></p>
+<% end %>
+
+			</td></tr>
+
+
+		<tr><td>Actual Start Date</td><td><%= f.text_field :actual_start_date, :value => @nepa_milestone.actual_start_date.try(:strftime, '%m/%d/%Y'), class: 'nepa_datepicker form-control' %></td></tr>
+		<tr><td>Actual Completion Date</td><td><%= f.text_field :actual_completion_date, :value => @nepa_milestone.actual_completion_date.try(:strftime, '%m/%d/%Y'), class: 'nepa_datepicker form-control' %></td></tr>
+		<tr><td>Extension</td><td><%= f.text_field :extension, :value => @nepa_milestone.extension.try(:strftime, '%m/%d/%Y'), class: 'nepa_datepicker form-control' %></td></tr>
+		<tr><td>FR Date</td><td><%= f.text_field :fr_date, :value => @nepa_milestone.fr_date.try(:strftime, '%m/%d/%Y'), class: 'nepa_datepicker form-control' %></td></tr>
+		<tr><td>FR Number</td><td><%= f.text_field :fr_number, class: 'form-control' %></td></tr>
+		<tr><td>Agency_Id</td><td><%= f.text_field :agency_id, class: 'form-control' %></td></tr>
+		<tr><td>URL</td><td><%= f.text_field :url, class: 'form-control' %></td></tr>
+		<tr><td>Accomplished</td><td><%= f.text_field :accomplished, class: 'form-control' %></td></tr>
+		<tr><td>Projected</td><td><%= f.text_field :projected, class: 'form-control' %></td></tr>
+		<tr><td>next_milestone_status_chart</td><td><%= f.text_field :next_milestone_status_chart, class: 'form-control' %></td></tr>
+		<tr><td>EstimatedStartDate</td><td><%= f.text_field :estimated_start_date, class: 'form-control' %></td></tr>
+		<tr><td>milestone_comments</td><td><%= f.text_field :milestone_comments, class: 'form-control' %></td></tr>
+		<tr><td>Weblink_Secondary</td><td><%= f.text_field :web_link_secondary, class: 'form-control' %></td></tr>
+		<tr><td>SA_Approved_Id</td><td><%= f.text_field :sa_approved_id, class: 'form-control' %></td></tr>
+		<tr><td>EPA_Rating_Id</td><td><%= f.text_field :epa_rating_id, class: 'form-control' %></td></tr>
+
+	</table>
+
+	<%= f.submit 'Update', :class => "btn btn-primary btn-default", :role => "button" %>
+	<%= link_to 'Cancel', nepa_document_nepa_milestones_path, :class => "btn btn-default", :role => "button" %>
+<% end %>

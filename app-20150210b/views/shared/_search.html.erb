@@ -1,0 +1,59 @@
+<% if @homepage %>
+<div id="nepaSearch" class="jumbotron">
+<% end %>
+
+  <% form_tag url_for(:controller => "maps"), :id=>"searchform",:name=> "searchform", :class => "form-inline", :method => :get do -%>
+
+  <% if @homepage %>
+    <h3>Search</h3>
+  <% else %>
+    <span>Search</span>
+  <% end %>
+
+    <select id="field" name="field" class="form-control">
+      <%= options_for_select([ ["Title", "title"],
+      ["Description", "description"],
+      ["Publisher", "publisher"],
+      ["Author", "authors"],
+      ["Tags", "tags"]], @field)-%>
+    </select>
+    for
+    <%= text_field_tag 'query', @query, :class => "form-control" %>
+
+
+    <% if @show_warped == "1" -%>
+    <% check_all = false -%>
+    <% check_rectified = true -%>
+    <% else -%>
+    <% check_all = true -%>
+    <% check_rectified = false -%>
+    <% end %>
+
+    <div class="form-group">
+      <%= radio_button_tag('show_warped', 0, check_all, :id => 'all_maps', :class => "form-control") %>
+      <label for="all_maps">All maps</label>
+    </div>
+    <div class="form-group">
+      <%= radio_button_tag('show_warped', 1, check_rectified, :id => 'rectified_maps', :class => "form-control") %>
+      <label for="rectified_maps">Rectified maps only</label>
+    </div>
+
+    <input type="submit" class="btn btn-primary" value="Go"/>
+
+    <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch') , :class => "btn btn-default", :role => "button" %>
+
+  <% end -%>
+
+  <% if @homepage %>
+    <hr/>
+    <h3>Search by Keyword</h3>
+    <div class="container">
+      <% tag_cloud @tags, %w(css1 css2 css3 css4) do |tag, css_class| %>
+      <%= link_to tag.name, { :controller=>:maps, :action => :tag, :id => tag.name }, :class => css_class %>
+      <% end %>
+    </div>
+  <% end %>
+
+<% if @homepage %>
+</div>
+<% end %>

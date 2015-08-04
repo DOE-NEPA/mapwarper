@@ -1,0 +1,28 @@
+<h2>NEPA Milestones</h2>
+
+<table>
+  <tr>
+	<th>Milestone id initial</th>
+	<th>Milestone</th>
+
+<th>s</th>
+<th>e</th>
+<th>d</th>
+
+  </tr>
+
+<% @nepa_lookup_milestones.each do |nepa_lookup_milestone| %>
+  <tr>
+    <td><%=h nepa_lookup_milestone.milestone_id_initial %></td>
+    <td><%=h nepa_lookup_milestone.milestone %></td>
+
+    <td><%= link_to 'Show', nepa_lookup_milestone %></td>
+    <td><%= link_to 'Edit', edit_nepa_lookup_milestone_path(nepa_lookup_milestone) %></td>
+    <td><%= link_to 'Destroy', nepa_lookup_milestone, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New nepa_lookup_milestone', new_nepa_lookup_milestone_path %>

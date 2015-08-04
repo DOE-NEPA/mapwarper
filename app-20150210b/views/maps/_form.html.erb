@@ -1,0 +1,138 @@
+<% form_for(@map, :html => {:multipart => true}) do |f| %>
+
+
+<div class="form-group">
+  <label for="map_title">Title</label>
+  <%= f.text_field :title, :class => "form-control", :placeholder => "Title" %>
+</div>
+
+<div class="form-group">
+  <label for="map_description">Description (max 256 chars)</label>
+  <%= f.text_area(:description, :rows => 4, :class => "form-control", :placeholder => "Description") %>
+</div>
+
+<div class="form-group">
+  <label for="map_tag_list">Tags (comma separated)</label>
+  <%= f.text_field :tag_list, :class => "form-control", :placeholder => "Tags (comma separated)" %>
+</div>
+
+<div class="form-group">
+  <label for="map_map_type">Map Type</label>
+  <%= f.select(:map_type, Map.map_type_hash, {:include_blank => false}, {:class => "form-control"}) %>
+</div>
+
+<div class="form-group">
+  <label for="map_subject_area">Subject Area (optional)</label>
+  <%= f.text_field :subject_area, :class => "form-control", :placeholder => "Subject Area" %>
+</div>
+
+<div class="form-group">
+  <label for="map_unique_id">Metadata Unique ID (optional)</label>
+  <%= f.text_field :unique_id, :class => "form-control", :placeholder => "Metadata Unique ID" %>
+</div>
+
+<div class="form-group">
+  <label for="map_source_uri">Source / Bibliographic Ref URL (optional)</label>
+  <%= f.text_field :source_uri, :class => "form-control", :placeholder => "Source / Bibliographic Ref URL" %>
+</div>
+
+<div class="form-group">
+  <label for="map_call_number">Call Number (optional)</label>
+  <%= f.text_field :call_number, :class => "form-control", :placeholder => "Call Number" %>
+</div>
+
+<div class="form-group">
+  <label for="map_publisher">Publisher (optional)</label>
+  <%= f.text_field :publisher, :class => "form-control", :placeholder => "Publisher" %>
+</div>
+
+<div class="form-group">
+  <label for="map_publication_place">Place of Publication (optional)</label>
+  <%= f.text_field :publication_place, :class => "form-control", :placeholder => "Place of Publication" %>
+</div>
+
+<div class="form-group">
+  <label for="map_authors">Author(s) (optional)</label>
+  <%= f.text_field :authors, :class => "form-control", :placeholder => "Author(s)" %>
+</div>
+
+<div class="form-group">
+  <label for="map_date_depicted">Date Depicted (optional)</label>
+  <%= f.text_field :date_depicted, :class => "form-control", :placeholder => "Date Depicted" %>
+</div>
+
+
+<% # BWE DEBUG  %>
+<% if false %>
+<p>
+  <b>Published Date</b><span class="tiny-text">(optional)</span><br />
+  <%= f.date_select(:published_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+</p>
+
+<p>
+  <b>Reprint Date </b><span class="tiny-text">(optional)</span><br />
+  <%= f.date_select(:reprint_date, :include_blank => true, :order => [:day, :month, :year ], :start_year => 1600, :end_year =>Time.now.year)  %>
+</p>
+<% end %>
+
+
+<div class="form-group">
+  <label for="map_published_date">Published Date (optional)</label>
+  <%= f.text_field :published_date, :class => "form-control nepa_datepicker", :placeholder => "Published Date" %>
+</div>
+
+<div class="form-group">
+  <label for="map_reprint_date">Reprint Date (optional)</label>
+  <%= f.text_field :reprint_date, :class => "form-control nepa_datepicker", :placeholder => "Reprint Date" %>
+</div>
+
+
+
+<div class="form-group">
+  <label for="map_scale">Scale (optional)</label>
+  <%= f.text_field :scale, :class => "form-control", :placeholder => "Scale" %>
+</div>
+
+<div class="form-group">
+  <label for="map_metadata_projection">Metadata Projection (optional)</label>
+  <%= f.text_field :metadata_projection, :class => "form-control", :placeholder => "Metadata Projection" %>
+</div>
+
+<div class="form-group">
+  <label for="map_metadata_lon">Metadata Location (optional)</label>
+  <%= f.text_field :metadata_lon, :class => "form-control", :placeholder => "Longitude" %>
+  <%= f.text_field :metadata_lat, :class => "form-control", :placeholder => "Latitude" %>
+</div>
+
+
+    <%- if defined?(page)  && page =~ /new/ -%>
+      <p>
+        <label for="upload"><b>Upload An Image File:</b>
+          <% if @max_size %>
+            Max size: <%=  number_to_human_size @max_size %>.
+          <% end %>
+          <%= @upload_file_message %>
+        </label> <br />
+        <%= f.file_field :upload %>
+      </p>
+      OR
+      <p>
+        <label for="upload_url"><b>Upload from a URL:</b></label>
+        <%= f.text_field :upload_url %>
+        <%# text_field_tag(:upload_url, "", :size=>40, :class=>"upload_url") %>
+      </p>
+    <%- end -%>
+
+    <%- if defined?(page)  && (page =~ /edit/ && logged_in? && (current_user == @map.owner || current_user.has_role?("editor")) || page =~ /new/ ) -%>
+      <p>
+        Map visibility. <br /><%= f.radio_button :public, "true" %><label for="map_public_true">Public(default)</label> <br/>
+        <%= f.radio_button :public, "false" %><label for="map_public_false">Don't list the map (only you can see it)</label>
+      </p>
+    <%- end -%>
+    <p>
+      <%= f.submit((defined?(page) && page =~ /new/) ? "Create" : "Update", :class => "btn btn-primary" )%>
+      <%= link_to 'Back', maps_path, :class => "btn btn-default", :role => "button" %>
+    </p>
+
+
+<% end %>

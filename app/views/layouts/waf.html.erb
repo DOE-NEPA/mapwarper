@@ -1,0 +1,16 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+  <head>
+    <title><%= h(@html_title) || ''-%>NEPA Map Warper</title>
+    <%= yield :head %>
+  </head>
+  <body>
+    <!-- Main Content -->
+    <%= yield %>
+
+    <hr>
+    <p><%= link_to "NEPA Map Warper", url_for(:controller => 'home', :action => 'index') %></p>
+
+  </body>
+</html>
+

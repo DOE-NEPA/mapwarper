@@ -1,0 +1,79 @@
+<h2>NEPA Documents</h2>
+
+<% #TODO - bootstrapify search controls %>
+
+
+<% form_tag url_for(:controller => "nepa_documents"), :class => "form-inline", :method => :get do -%>
+	<span>Search</span>
+	<select id="field" name="field" class="form-control">
+		<%= options_for_select([
+		["Document No.", "document_no"],
+		["Title", "title"],
+		["Comments", "comments"]], @field)-%>
+	</select>
+	<span>for</span>
+	<%= text_field_tag 'query', @query, :class => "form-control"  -%>
+	<input type="submit" value="Go" class="btn btn-primary" >
+<% end -%>
+
+
+	<% #TODO - bootstrapify pagination %>
+	<%= will_paginate @nepa_documents, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>NEPA Document No.</th>
+			<th>NEPA Document Title</th>
+
+			<th>Actions</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+			<th>&nbsp;</th>
+
+		</tr>
+	</thead>
+
+	<tbody>
+		<% @nepa_documents.each do |nepa_document| %>
+			<tr>
+				<td><%= link_to nepa_document.document_no ? nepa_document.document_no.to_s : "[Please enter a document number]", nepa_document %></td>
+				<td><%= nepa_document.title %></td>
+
+
+				<td><%= link_to "View NEPA Milestones", nepa_document_nepa_milestones_path(nepa_document), :class => "btn btn-default", :role => "button" %></td>
+				<td>
+					<%=
+						if (nepa_document.map_id) then
+							link_to 'View Associated Map', map_path(nepa_document.map_id), :class => "btn btn-default", :role => "button"
+						else
+
+							if current_user.has_role?("administrator") || current_user.has_role?("super user")
+								#link_to "Assign to Map", assign_nepa_document_path(nepa_document)
+								link_to "Assign to Project Map", {:controller => 'maps', :action =>'nepaproject', :nepa => "assign", :doc => nepa_document.id}, :class => "btn btn-default", :role => "button"
+							end
+
+						end
+					%>
+				</td>
+				<td><% if current_user.has_role?("administrator") || current_user.has_role?("super user") %><%= link_to 'Edit', edit_nepa_document_path(nepa_document), :class => "btn btn-default", :role => "button" %><% end %></td>
+				<td><% if current_user.has_role?("administrator") || current_user.has_role?("super user") %><%= link_to 'Destroy', nepa_document, :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-default", :role => "button" %><% end %></td>
+
+
+
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+
+
+<%= will_paginate @nepa_documents, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+
+<div class="per_page_select">
+  <%= page_entries_info @nepa_documents %>.&nbsp;<%= select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
+</div>
+
+<% if current_user.has_role?("administrator") || current_user.has_role?("super user") %>
+<br/>
+<p><%= link_to 'New NEPA Document', new_nepa_document_path, :class => "btn btn-default", :role => "button" %></p>
+<% end %>

@@ -1,0 +1,23 @@
+<h2>Map Metadata</h2>
+
+<table class="table">
+  <tr><th>Title</th><td><%= h @map.title %></td></tr>
+  <tr><th>Description</th><td><%= h @map.description %></td></tr>
+  <tr><th>Tags</th><td><% @map.tags.each do | tag | -%>&nbsp;<%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name }, :class => "btn btn-default", :role => "button" %><% end %></td></tr>
+  <tr><th>Map Type</th><td><%= @map.map_type.to_s %></td></tr>
+  <tr><th>Source/ Bibliographic Ref URL</th><td><%= @map.source_uri %></td></tr>
+  <tr><th>Publisher</th><td><%= @map.publisher %></td></tr>
+  <tr><th>Author(s)</th><td><%= @map.authors %></td></tr>
+  <tr><th>Scale</th><td><%= @map.scale %></td></tr>
+  <tr><th>Published Date</th><td><%= @map.published_date %></td></tr>
+  <tr><th>Reprint Date</th><td></td><%= @map.reprint_date %></tr>
+</table>
+
+<h2>Nepa Metadata</h2>
+<table class="table">
+  <tr><th>Map Type</th><td><%= @map.map_type_nepa.to_s %></td></tr>
+  <tr><th>Link</th><td><%= @map.map_link_nepa.to_s %></td></tr>
+  <% if @map.project_map? and !@map.nepa_document.nil? -%>
+  <tr><th>NEPA Document</th><td><%= link_to @map.nepa_document.document_no, @map.nepa_document, :class => "btn btn-default", :role => "button" %></td></tr>
+  <% end -%>
+</table>

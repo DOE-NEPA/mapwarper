@@ -1,0 +1,34 @@
+<h2>Viewing Entire Milestone</h2>
+
+<table class="table">
+
+	<tr><td>Milestone Type</td><td><%= @nepa_milestone.nepa_lookup_milestone.milestone %></td></tr>
+	<tr><td>Actual Start Date</td><td><%= @nepa_milestone.actual_start_date.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>Actual Completion Date</td><td><%= @nepa_milestone.actual_completion_date.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>Extension</td><td><%= @nepa_milestone.extension.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>FR Date</td><td><%= @nepa_milestone.fr_date.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>FR Number</td><td><%= @nepa_milestone.fr_number %></td></tr>
+	<tr><td>Agency_Id</td><td><%= @nepa_milestone.agency_id %></td></tr>
+	<tr><td>URL</td><td><%= @nepa_milestone.url %></td></tr>
+	<tr><td>Accomplished</td><td><%= @nepa_milestone.accomplished %></td></tr>
+	<tr><td>Projected</td><td><%= @nepa_milestone.projected %></td></tr>
+	<tr><td>next_milestone_status_chart</td><td><%= @nepa_milestone.next_milestone_status_chart %></td></tr>
+	<tr><td>EstimatedStartDate</td><td><%= @nepa_milestone.estimated_start_date %></td></tr>
+	<tr><td>milestone_comments</td><td><%= @nepa_milestone.milestone_comments %></td></tr>
+	<tr><td>Created</td><td><%= @nepa_milestone.created_initial.try(:strftime, '%m/%d/%Y') %></td></tr>
+	<tr><td>Weblink_Secondary</td><td><%= @nepa_milestone.web_link_secondary %></td></tr>
+	<tr><td>SA_Approved_Id</td><td><%= @nepa_milestone.sa_approved_id %></td></tr>
+	<tr><td>EPA_Rating_Id</td><td><%= @nepa_milestone.epa_rating_id %></td></tr>
+
+	<% # BWE DEBUG  %>
+	<% if false %>
+	<!--	<tr><td>Milestone_Unique_Id</td><td><%= @nepa_milestone.milestone_unique_id %></td></tr> -->
+	<!--	<tr><td>Document_Id_initial</td><td><%= @nepa_milestone.document_id_initial %></td></tr> -->
+	<% end %>
+
+</table>
+
+<% if current_user.has_role?("administrator") || current_user.has_role?("super user") %>
+<%= link_to 'Edit', edit_nepa_document_nepa_milestone_path(@nepa_document, @nepa_milestone), :class => "btn btn-default", :role => "button" %>
+<% end %>
+<%= link_to 'Back to Viewing all Milestones', nepa_document_nepa_milestones_path, :class => "btn btn-default", :role => "button" %>
