@@ -5,8 +5,8 @@
 <% if @linktomap %><%= link_to "Show Just Map Activity", :controller=>"maps", :action=>"activity" %><% end %>
 <br /><br />
 
-<%= will_paginate @audits %>
+<%= will_paginate @audits, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
 
 <%= render :partial => 'audit_table', :object => @audits %>
 
-<%= will_paginate @audits %>
+<%= will_paginate @audits, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>

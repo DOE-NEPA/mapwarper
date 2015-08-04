@@ -2,7 +2,7 @@
 SITE_URL = "local.mapwarper.net"
 SITE_NAME = "map warper"
 SITE_EMAIL = "robot@mapwarper.net"
-MAPSERVER_URL = "/mapserv"  #url to the mapserv executable
+MAPSERVER_URL = "/home/ubuntu/mapwarper/public/cgi/mapserv"  #url to the mapserv executable
 
 #paths to directories to put various files in
 #SRC_MAPS_DIR = "/var/lib/maps/src/"

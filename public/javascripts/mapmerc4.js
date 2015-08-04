@@ -77,10 +77,26 @@ function init() {
       to_map.addLayer(get_map_layer(layers_array[i]));
     }
 
-
+/* 
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - removed nasa landsat
+### ------------------------------------------------------------------------------------------------------------------------ ###
     jpl_wms.setVisibility(false);
     to_map.addLayer(jpl_wms);
+*/
 
+/* 
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - added google maps (googleMaps,googleSat,googleHybrid defined in layers.js)
+### ------------------------------------------------------------------------------------------------------------------------ ###
+*/
+to_map.addLayers([googleMaps,googleSat,googleHybrid]);
+
+/* 
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE note - map_has_bounds defined in warm.html.erb
+### ------------------------------------------------------------------------------------------------------------------------ ###
+*/
     if (map_has_bounds) {
       map_bounds_merc = new OpenLayers.Bounds();
       map_bounds_merc  = lonLatToMercatorBounds(map_bounds);
@@ -88,9 +104,9 @@ function init() {
       to_map.zoomToExtent(map_bounds_merc);
 
     } else {
-      //set to the world
-        to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(0.0, 0.0)), 10);
-    }
+//set to the USA centroid (from https://en.wikipedia.org/wiki/Geographic_center_of_the_contiguous_United_States)
+to_map.setCenter(lonLatToMercator(new OpenLayers.LonLat(-98.579500, 39.828175)), 3);
+}
 
     //style for the active, temporary vector marker, the one the user actually adds themselves,
     var active_style = OpenLayers.Util.extend({},

@@ -1,88 +1,30 @@
-<h2>metadata</h2>
+<h3>Map Metadata</h3>
+
+<table class="table">
+  <tr><th>Title</th><td><%= h @map.title %></td></tr>
+  <tr><th>Description</th><td><%= h @map.description %></td></tr>
+  <tr><th>Keywords</th><td><% @map.tags.each do | tag | -%>&nbsp;<%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name }, :class => "btn btn-default", :role => "button" %><% end %></td></tr>
 
 
-<div class="column span-12">
-    <p>
-      <b>Title</b><br />
-      <%= h @map.title %>
-    </p>
-
-    <p>
-      <b>Description </b><br />
-      <%= h @map.description %>
-    </p>
-    <p>
-       <% if @map.tags.count > 0 -%>
-      <span class="map_summary">Tags:</span>
-      <span class="tags">
-        <% @map.tags.each do | tag | -%>
-          <%= link_to tag.name, { :controller=> :maps, :action => :tag, :id => tag.name } %>
-        <% end %>
-      </span>
-      <br />
-    <% end -%>
-    </p>
+  <tr><th>Subject Area</th><td><%= h @map.subject_area %></td></tr>
 
 
-<p>
-<%= 
-### BWE UPDATE: ###
-# description span
--%>
-<span>Map Type: </span>	
-<%= @map.map_type.to_s %>
-</p>
-
-<p>
-<%= 
-### BWE UPDATE: ###
-# map_type_nepa description and value
--%>
-<span>NEPA Map Type: </span>	
-<%= @map.map_type_nepa.to_s %>
-</p>
-
-<p>
-<%= 
-### BWE UPDATE: ###
-# map_link_nepa description and value
--%>
-<span>NEPA Map Link: </span>	
-<%= @map.map_link_nepa.to_s %>
-</p>
+  <tr><th>Project Website / Documents URL</th><td><%= link_to @map.metadata_projection  %></td></tr>
+  <tr><th>Source URL</th><td><%= link_to @map.source_uri  %></td></tr>
 
 
+  <tr><th>Call Number</th><td><%= @map.call_number %></td></tr>
+  <tr><th>Publisher</th><td><%= @map.publisher %></td></tr>
+  <tr><th>Author(s)</th><td><%= @map.authors %></td></tr>
+  <tr><th>Date Depicted</th><td><%= @map.date_depicted %></td></tr>
+</table>
 
-
-  </div>
-
-  <div class="column span-12 last">
-  <p>
-    <b>Source/ Bibliographic Ref URL</b><br />
-    <%= @map.source_uri %>
-  </p>
-    <p>
-      <b>Publisher</b><br />
-      <%= @map.publisher %>
-    </p>
-
-    <p>
-      <b>Author(s)</b><br />
-      <%= @map.authors %>
-    </p>
-
-    <p>
-      <b>Scale</b><br />
-      <%= @map.scale %>
-    </p>
-
-    <p>
-      <b>Published Date</b><br />
-      <%= @map.published_date %>
-
-    <p>
-      <b>Reprint Date<br />
-      <%= @map.reprint_date %>
-    </p>
-  </div>
+<h3>Nepa Metadata</h3>
+<table class="table">
+  <tr><th>Map Type</th><td><%= @map.map_type_nepa.to_s %></td></tr>
+  <tr><th>Link</th><td><%= @map.map_link_nepa.to_s %></td></tr>
+  <% if @map.project_map? and !@map.nepa_document.nil? -%>
+  <tr><th>NEPA Document</th><td><%= link_to @map.nepa_document.document_no, @map.nepa_document, :class => "btn btn-default", :role => "button" %></td></tr>
+  <% end -%>
+</table>
 

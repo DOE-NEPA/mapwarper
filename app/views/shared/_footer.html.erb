@@ -1,10 +1,36 @@
-<div id="nav">
-  <a href="/">Home</a> |
-  <%= link_to "Add Map", new_map_path %> |
-  <a href="/about.htm">About</a> |
-  <a href="/help.htm">Help</a> |
-  <%= image_tag('nypl_lion_small.png') %>
-  <a href="http://maps.nypl.org">Supported by the New York Public Library</a>
-</div>
 
+<footer>
+  <div class="container well">
 
+    <div id="nepaSiteMap" class="row">
+
+      <div class="col-md-4">
+        <h4>NEPA</h4>
+<% if logged_in? && current_user.nepa_admin? %>
+        <p><%= link_to "Documents", url_for(:controller => 'nepa_documents', :action => 'index') %></p>
+        <p><a href="#">Reference</a></p>
+<% end %>
+      </div>
+
+      <div class="col-md-4">
+        <h4>Maps</h4>
+        <p><%= link_to "All Maps", url_for(:controller => 'maps', :action => 'index') %></p>
+        <p><%= link_to "All Project Maps", url_for(:controller => 'maps', :action => 'nepaproject') %></p>
+        <p><%= link_to "All Reference Maps", url_for(:controller => 'maps', :action => 'nepareference') %></p>
+        <p><%= link_to "My Maps", my_maps_path(current_user) %></p>
+        <p><%= link_to "Upload New Map", new_map_path %></p>
+      </div>
+
+      <div class="col-md-4">
+        <h4>Site</h4>
+        <p><%= link_to "Home", url_for(:controller => 'home', :action => 'index') %></p>
+        <p><%= link_to "Help", url_for(:controller => 'home', :action => 'help') %></p>
+        <p><a href="http://54.236.235.110/uploaded/documents/NEPAnode_MapWarper_-_How_To.pdf">How-to</a></p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>

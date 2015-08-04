@@ -1,20 +1,38 @@
+<div class="row">
 
+	<div class="col-md-4">
+		<h2>Social Login</h2>
+		<a href="/auth/google_oauth2"><%= image_tag "/images/authbuttons-master/png/google_64.png", :size => "64x64", :alt => "Google" %></a>
+		<a href="/auth/linkedin"><%= image_tag "/images/authbuttons-master/png/linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
+	</div>
 
-    <h2>Login with User ID and Password:</h2>
-    
-    <% form_tag session_path do %>
+	<div class="col-md-3">
+		<% form_tag session_path do %>
+			<h2>Site Login</h2>
 
-    <p><label for="email">Email</label><br/>
-    <%= text_field_tag "email" %></p>
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<%= text_field_tag "email", nil, :class => "form-control", :placeholder => "Email" %>
+			</div>
 
-    <p><label for="password">Password</label><br />
-    <%= password_field_tag "password" %></p>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<%= password_field_tag "password", nil, :class => "form-control", :placeholder => "Password" %>
+			</div>
 
-    <p><label for="remember_me">Remember me:</label>
-    <%= check_box_tag "remember_me" %></p>
+			<div class="checkbox">
+				<label><%= check_box_tag "remember_me" %>Remember Me</label>
+			</div>
 
-    <p><%= submit_tag "Log in" %><%= link_to "Sign Up", new_user_path %></p>
+			<p><%= submit_tag "Log in", :class => "form-control btn btn-primary" %></p>
 
-    <p><%= link_to "Forgot Password?", forgot_password_path %>
-    </p>
-    <% end %>
+			<%= link_to "Forgot Password?", forgot_password_path, :class => "form-control btn btn-default", :role => "button" %>
+
+			<hr/>
+			<p>If you have yet to sign up,</p>
+			<%= link_to "Sign Up", new_user_path, :class => "form-control btn btn-default", :role => "button" %>
+		<% end %>
+	</div>
+
+	<div class="col-md-5"></div>
+</div>

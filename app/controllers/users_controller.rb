@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
    layout 'application'
    before_filter :not_logged_in_required, :only => [:new, :create]
-   
+
    before_filter :login_required, :only => [:show, :edit, :update]
    before_filter :check_super_user_role, :only => [:index, :destroy, :enable, :disable, :force_activate, :disable_and_reset, :force_resend_activaton, :stats]
    helper :sort
@@ -10,7 +10,7 @@ class UsersController < ApplicationController
    def stats
      sort_init "total_count"
      sort_update
-  
+
      @html_title = "Users Stats"
 
      the_sql = "select user_id, username, COUNT(user_id) as total_count,
@@ -64,7 +64,7 @@ class UsersController < ApplicationController
                             )
       render :action => 'index'
    end
-  
+
    def show
       @user = User.find(params[:id]) || current_user
       @html_title = "Showing User "+ @user.login.capitalize
@@ -92,8 +92,7 @@ class UsersController < ApplicationController
       # logged in after creating an account - Not Recommended
       # self.current_user = @user
       flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in. If you dont recieve an email, then %s"
-      flash[:notice_item] = ["click here to resend the email",
-        resend_activation_path] 
+      flash[:notice_item] = ["click here to resend the email", resend_activation_path] 
       redirect_to login_path
    rescue ActiveRecord::RecordInvalid
       flash[:error] = "There was a problem creating your account."
@@ -166,7 +165,7 @@ class UsersController < ApplicationController
       redirect_to :action => 'index'
    end
 
-   def activate  
+   def activate
       @user = User.find_by_activation_code(params[:id])
       if @user and @user.activate
          self.current_user = @user
@@ -181,7 +180,7 @@ class UsersController < ApplicationController
      @user = User.find(params[:id])
      if !@user.active?
        @user.force_activate!
-       if @user.active? 
+       if @user.active?
          flash[:notice] = "User activated"
        else
          flash[:error] = "There was a problem activating this user."
@@ -191,7 +190,7 @@ class UsersController < ApplicationController
      end
      redirect_to :action => 'index'
    end
-   
+
    #only admin can do this
    def force_resend_activation
      @user = User.find(params[:id])
@@ -214,7 +213,7 @@ class UsersController < ApplicationController
       redirect_to login_path and return
     else
       flash[:notice] = "Activation email was not sent, either because the email was not the same as you gave when you signed up, or you have already been activated!"
-      
+
     end
    end
 

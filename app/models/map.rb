@@ -19,6 +19,15 @@ class Map < ActiveRecord::Base
   has_many :layers, :through => :layers_maps # ,:after_add, :after_remove
   has_many :groups_maps, :dependent => :destroy
   has_many :groups, :through => :groups_maps
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - add nepa_document association
+### ------------------------------------------------------------------------------------------------------------------------ ###
+has_one :nepa_document, dependent: :nullify  # updates the associated records foreign key value to NULL rather than destroying it
+#, :dependent => :destroy #destroys the associated records when parent is deleted
+accepts_nested_attributes_for :nepa_document
+
+
   acts_as_taggable
   has_attached_file :upload, :styles => {:thumb => ["100x100>", :png]} ,
     :url => '/:attachment/:id/:style/:basename.:extension'
@@ -40,10 +49,7 @@ class Map < ActiveRecord::Base
 ### BWE update - add map_type_nepa enum
 ### ------------------------------------------------------------------------------------------------------------------------ ###
 acts_as_enum :map_type_nepa, [:project_map, :reference_map ]
-### ------------------------------------------------------------------------------------------------------------------------ ###
-### BWE update - add map_link_nepa string
-### ------------------------------------------------------------------------------------------------------------------------ ###
-#attr_protected :map_link_nepa # as :string
+
 
 
   acts_as_enum :rough_state, [:step_1, :step_2, :step_3, :step_4]
@@ -376,6 +382,15 @@ named_scope :nepa_reference_map, :conditions => {:map_type_nepa => Map.map_type_
   def warped_or_published?
     return [:warped, :published].include?(status)
   end
+
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - added project_map?
+### ------------------------------------------------------------------------------------------------------------------------ ###
+def project_map?
+	map_type_nepa == :project_map
+end
+
 
    #Layer.with_year orders by size
    #can return nil if there is no year

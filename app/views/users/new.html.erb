@@ -1,16 +1,47 @@
-<%= error_messages_for :user %>
 <% form_for :user, :url => users_path do |f| -%>
-<p><label for="login">Name</label><br/>
-<%= f.text_field :login %></p>
 
-<p><label for="email">Email (You'll use this to log in with)</label><br/>
-<%= f.text_field :email %></p>
+<div class="row">
 
-<p><label for="password">Password</label><br/>
-<%= f.password_field :password %></p>
+  <div class="col-md-4">
+    <h2>Social Registration</h2>
+    <a href="/auth/google_oauth2"><%= image_tag "/images/authbuttons-master/png/google_64.png", :size => "64x64", :alt => "Google" %></a>
+    <a href="/auth/linkedin"><%= image_tag "/images/authbuttons-master/png/linkedin_64.png", :size => "64x64", :alt => "LinkedIn" %></a>
+  </div>
 
-<p><label for="password_confirmation">Confirm Password</label><br/>
-<%= f.password_field :password_confirmation %></p>
 
-<p><%= submit_tag 'Sign up' %></p>
+  <div class="col-md-3">
+    <h2>Site Registration</h2>
+
+
+    <div class="form-group">
+      <label for="login">Name</label>
+      <%= f.text_field :login, :class => "form-control", :placeholder => "Name" %>
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email</label>
+      <%= f.text_field :email, :class => "form-control", :placeholder => "Email" %>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <%= f.password_field :password, :class => "form-control", :placeholder => "Password" %>
+    </div>
+
+    <div class="form-group">
+      <label for="password_confirmation">Confirm Password</label>
+      <%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Confirm Password" %>
+    </div>
+
+    <%= submit_tag 'Sign up', :class => "form-control btn btn-primary" %>
+    <hr/>
+    <p>If you have already signed up,</p>
+    <%= link_to "Log In", login_path, :class => "form-control btn btn-default", :role => "button" %>
+
+
+
+  </div>
+  <div class="col-md-5"><%= error_messages_for :user %></div>
+</div>
+
 <% end -%>

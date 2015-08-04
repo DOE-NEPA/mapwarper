@@ -47,8 +47,24 @@ function warpedinit(){
    warped_wmslayer.setIsBaseLayer(false);
    warpedmap.addLayer(warped_wmslayer);
 
+
+/* 
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - removed nasa landsat
+### ------------------------------------------------------------------------------------------------------------------------ ###
    jpl_wms3 = jpl_wms.clone();
    warpedmap.addLayer(jpl_wms3);
+*/
+
+
+/* 
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - added google maps (googleMaps,googleSat,googleHybrid defined in layers.js)
+### ------------------------------------------------------------------------------------------------------------------------ ###
+*/
+	warpedmap.addLayers([googleMaps,googleSat,googleHybrid]);
+
+
 
    clipmap_bounds_merc  = warped_bounds.transform(warpedmap.displayProjection, warpedmap.projection);
 

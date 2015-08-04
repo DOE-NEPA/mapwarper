@@ -1,20 +1,30 @@
+
 class MapsController < ApplicationController
+
    layout 'mapdetail', :only => [:show, :edit, :preview, :warp, :clip, :align, :activity, :warped, :export, :metadata, :comments]
-  #before_filter :login_required, :only => [:destroy, :delete]
-  before_filter :login_or_oauth_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
+
+
+   #before_filter :login_required, :only => [:destroy, :delete]
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - change login_or_oauth_required to login_required
+### ------------------------------------------------------------------------------------------------------------------------ ###
+  before_filter :login_required, :only => [:new, :create, :edit, :update, :destroy, :delete, :warp, :rectify, :clip, :align,
  :warp_align, :mask_map, :delete_mask, :save_mask, :save_mask_and_warp, :set_rough_state, :set_rough_centroid ]
+
   before_filter :check_administrator_role, :only => [:publish]
+
 
 ### ------------------------------------------------------------------------------------------------------------------------ ###
 ### BWE update - added :nepaproject, :nepareference exclusions to before_filter :find_map_if_available
 ### ------------------------------------------------------------------------------------------------------------------------ ###
   before_filter :find_map_if_available,
-    :except => [:show, :index, :nepaproject, :nepareference, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
+    :except => [:waf_index, :show, :index, :nepaproject, :nepareference, :wms, :tile, :mapserver_wms, :warp_aligned, :status, :new, :create, :update, :edit, :tag, :geosearch]
 
   before_filter :check_link_back, :only => [:show, :warp, :clip, :align, :warped, :export, :activity]
   before_filter :check_if_map_is_editable, :only => [:edit, :update]
   before_filter :check_if_map_can_be_deleted, :only => [:destroy, :delete]
-  
+
   skip_before_filter :verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify, :set_rough_state, :set_rough_centroid]
   #before_filter :semi_verify_authenticity_token, :only => [:save_mask, :delete_mask, :save_mask_and_warp, :mask_map, :rectify]
   rescue_from ActiveRecord::RecordNotFound, :with => :bad_record
@@ -23,6 +33,44 @@ class MapsController < ApplicationController
 
   helper :sort
   include SortHelper
+
+
+  def waf_index
+
+    @maps = Map.public.warped.all
+
+    respond_to do |format|
+      format.html{ render :layout =>'waf' }  # waf_index.html.erb
+    end
+  end
+
+  require 'securerandom'
+  def waf_show
+    #@map defined in before_filter :find_map_if_available
+
+    @bbox =  params[:bbox] || @map.bounds
+    @bounds = @bbox.split(',')
+
+    #@wms_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "wms", :id=>@map)
+    #@kml_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"kml")
+    #@mapwarper_baseurl = "http://"+request.host_with_port+ url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"html")
+
+    @wms_baseurl = url_for(:controller => "maps", :action=> "wms", :id=>@map)
+    @wms_getcapabilitiesurl = url_for(wms_map_url(:id=>@map, :request => "GetCapabilities", :service => "WMS", :version => "1.1.1"))
+    @wms_getcapabilitiesurl = @wms_getcapabilitiesurl.gsub! "&", "&amp;"
+    @kml_baseurl = url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"kml")
+    @mapwarper_baseurl = url_for(:controller => "maps", :action=> "show", :id=>@map, :format=>"html")
+
+    @docid = @map.id.to_s+"-NEPAMW-"+SecureRandom.uuid
+#@date = @map.created_at.iso8601
+#@date = @map.created_at.try(:strftime, '%Y-%m-%d')
+@date_created = @map.created_at.strftime('%Y-%m-%d')
+@date_updated = @map.updated_at.strftime('%Y-%m-%d')
+
+    respond_to do |format|
+      format.xml  # waf_show.xml.erb
+    end
+  end
 
   def choose_layout_if_ajax
     if request.xhr?
@@ -37,7 +85,7 @@ class MapsController < ApplicationController
       format.json {render :json =>{:stat => "ok", :items => map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]  }
     end
   end
-  
+
   def set_rough_centroid
     map = Map.find(params[:id])
     lon = params[:lon]
@@ -101,6 +149,8 @@ class MapsController < ApplicationController
 
     require 'yahoo-geoplanet'
   def geosearch
+    @geosearching = true
+
     sort_init 'updated_at'
     sort_update
 
@@ -181,7 +231,18 @@ extents = [-161.530959125,10.2649701716, -62.6665849,54.55922661]
       :order => sort_geo + sort_clause + sort_nulls,
       :conditions => conditions
     }
-    @maps = Map.warped.paginate(paginate_params)
+
+
+    if(params.has_key?("p"))
+      @maps = Map.nepa_project_map.warped.paginate(paginate_params)
+    elsif (params.has_key?("r"))
+      @maps = Map.nepa_reference_map.warped.paginate(paginate_params)
+    else
+      @maps = Map.warped.paginate(paginate_params)
+    end
+
+
+
     @jsonmaps = @maps.to_json # (:only => [:bbox, :title, :id, :nypl_digital_id])
     respond_to do |format|
       format.html{ render :layout =>'application' }
@@ -243,7 +304,7 @@ extents = [-161.530959125,10.2649701716, -62.6665849,54.55922661]
   def index
 
     sort_init('updated_at', {:default_order => "desc"})
-    
+
     sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
@@ -253,9 +314,9 @@ extents = [-161.530959125,10.2649701716, -62.6665849,54.55922661]
     @query = params[:query]
 
     @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
-    
+
    unless @field == "tags"
-     
+
      @field = "title" if @field.nil?
 
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
@@ -282,7 +343,7 @@ if(params.has_key?("view_related"))
 #	else
 #		conditions = conditions + ["map_link_nepa = 'nepa'"]
 	end
-end
+    end
 
 
       if params[:sort_order] && params[:sort_order] == "desc"
@@ -350,7 +411,7 @@ end
 ### ------------------------------------------------------------------------------------------------------------------------ ###
   def nepaproject
     sort_init('updated_at', {:default_order => "desc"})
-    
+
     sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
@@ -360,10 +421,19 @@ end
     @query = params[:query]
 
     @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
-    
+
    unless @field == "tags"
-     
+
      @field = "title" if @field.nil?
+
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+# BWE Update: check to see if we are showing the link to assign a nepa document to a map
+### ------------------------------------------------------------------------------------------------------------------------ ###
+if(params.has_key?("nepa") && params.has_key?("doc") && params[:doc].to_i > 0)
+	@nepa_document_id = params[:doc].to_i
+end
+
 
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
     if @query && @query.strip.length > 0 && @field
@@ -412,10 +482,10 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 
 	respond_to do |format|
 		format.html{ render :layout =>'application' }  # nepaproject.html.erb
-		
+
 		format.xml  {
 			render :xml => @maps.to_xml(
-				:root => "maps", 
+				:root => "maps",
 				:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]
 			) { |xml|
 				xml.tag!'stat', "ok"
@@ -425,7 +495,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 			}
 		}
 
-		format.json { 
+		format.json {
 			render :json => {
 				:stat => "ok",
 				:current_page => @maps.current_page,
@@ -449,7 +519,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 ### ------------------------------------------------------------------------------------------------------------------------ ###
   def nepareference
     sort_init('updated_at', {:default_order => "desc"})
-    
+
     sort_update
     @show_warped = params[:show_warped]
     request.query_string.length > 0 ?  qstring = "?" + request.query_string : qstring = ""
@@ -459,9 +529,9 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
     @query = params[:query]
 
     @field = %w(tags title description status publisher authors).detect{|f| f == (params[:field])}
-    
+
    unless @field == "tags"
-     
+
      @field = "title" if @field.nil?
 
       #we'll use POSIX regular expression for searches    ~*'( |^)robinson([^A-z]|$)' and to strip out brakets etc  ~*'(:punct:|^|)plate 6([^A-z]|$)';
@@ -511,10 +581,10 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 
 	respond_to do |format|
 		format.html{ render :layout =>'application' }  # nepareference.html.erb
-		
+
 		format.xml  {
 			render :xml => @maps.to_xml(
-				:root => "maps", 
+				:root => "maps",
 				:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]
 			) { |xml|
 				xml.tag!'stat', "ok"
@@ -524,7 +594,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 			}
 		}
 
-		format.json { 
+		format.json {
 			render :json => {
 				:stat => "ok",
 				:current_page => @maps.current_page,
@@ -608,6 +678,12 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
     @selected_tab = 1
     @html_title = "Editing Map #{@map.title} on"
     choose_layout_if_ajax
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - added init_nepa_document
+### ------------------------------------------------------------------------------------------------------------------------ ###
+init_nepa_document
+
     respond_to do |format|
       format.html {} #{ render :layout =>'application' }  # new.html.erb
       format.xml  { render :xml => @map }
@@ -618,7 +694,12 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 
   def update
     #@map = Map.find(params[:id])
-    
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - added init_nepa_document
+### ------------------------------------------------------------------------------------------------------------------------ ###
+init_nepa_document
+
     if @map.update_attributes(params[:map])
       flash.now[:notice] = 'Map was successfully updated.'
     else
@@ -672,19 +753,16 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
     render :text =>  sta
   end
 
+
+
   def show
 
     @current_tab = "show"
     @selected_tab = 0
     @disabled_tabs =[]
     @map = Map.find(params[:id])
-
-
-#logger.debug "[BWE] map_link_nepa " + @map.map_link_nepa
-
-
-
     @html_title = "Viewing Map "+@map.id.to_s
+
 
     if @map.status.nil? || @map.status == :unloaded
       @mapstatus = "unloaded"
@@ -707,13 +785,11 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
         render :layout => "tab_container"
       else
         respond_to do |format|
-          format.html #
-          format.kml {render :action => "show_kml", :layout => false}
-          format.rss {render :action=> 'show'}
-           format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])
-}
-           format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]
-}
+           format.html #
+           format.kml {render :action => "show_kml", :layout => false}
+           format.rss {render :action=> 'show'}
+           format.xml {render :xml => @map.to_xml(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid])}
+           format.json {render :json =>{:stat => "ok", :items => @map.to_a}.to_json(:except => [:content_type, :size, :bbox_geom, :uuid, :parent_uuid, :filename, :parent_id,  :map, :thumbnail, :rough_centroid]), :callback => params[:callback]}
         end
       end
       return #stop doing anything more
@@ -747,7 +823,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
     end
   end
 
- 
+
   #should check for admin only
   def publish
     if params[:to] == "publish" && @map.status == :warped
@@ -793,7 +869,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
       end
     end
   end
-  
+
   def save_mask_and_warp
     logger.debug "save mask and warp"
     @map.save_mask(params[:output])
@@ -838,7 +914,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 
    #just works with NSEW directions at the moment.
   def warp_aligned
-    
+
     align = params[:align]
     append = params[:append]
     destmap = Map.find(params[:destmap])
@@ -875,13 +951,13 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
      @html_title = "Rectifying Map "+ @map.id.to_s
      @bestguess_places = @map.find_bestguess_places  if @map.gcps.hard.empty?
      @other_layers = Array.new
-     @map.layers.visible.each do |layer| 
+     @map.layers.visible.each do |layer|
        @other_layers.push(layer.id)
      end
 
-     @gcps = @map.gcps_with_error 
+     @gcps = @map.gcps_with_error
 
-     choose_layout_if_ajax 
+     choose_layout_if_ajax
    end
 
 
@@ -901,7 +977,7 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
          format.json { render :json=> {:stat => "fail", :message => @notice_text}.to_json , :callback => params[:callback]}
        end
      end
-     
+
    end
 
 
@@ -923,16 +999,19 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
 
 
   def wms
-    
+
     unless @@mapscript_exists
       mapserver_wms
     else
       begin
+
+logger.debug "BWE in mapscript_exists"
+
         @map = Map.find(params[:id])
         #status is additional query param to show the unwarped wms
         status = params["STATUS"].to_s.downcase || "unwarped"
         ows = Mapscript::OWSRequest.new
-        
+
         ok_params = Hash.new
         # params.each {|k,v| k.upcase! } frozen string error
         params.each {|k,v| ok_params[k.upcase] = v }
@@ -940,7 +1019,9 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
           ows.setParameter(key.to_s, ok_params[key.to_s.upcase]) unless ok_params[key.to_s.upcase].nil?
         end
 
-        ows.setParameter("VeRsIoN","1.1.1")
+ows.setParameter("VeRsIoN","1.1.1")
+#ows.setParameter("VeRsIoN","1.3.0")
+
         ows.setParameter("STYLES", "")
         ows.setParameter("LAYERS", "image")
         ows.setParameter("COVERAGE", "image")
@@ -964,6 +1045,9 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
         else #show the warped map
           raster.data = @map.warped_filename
         end
+
+#from http://mapserver.org/ogc/wms_server.html#wms-1-3-0-support
+#http://demo.mapserver.org/cgi-bin/wms?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&BBOX=-90,-180,90,180&CRS=EPSG:4326&WIDTH=953&HEIGHT=480&LAYERS=bluemarble,cities&STYLES=,&FORMAT=image/png&DPI=96&TRANSPARENT=true
 
         raster.status = Mapscript::MS_ON
         raster.dump = Mapscript::MS_TRUE
@@ -1000,7 +1084,8 @@ logger.debug "[BWE] nepaproject post get maps.  @maps.total_entries = " + @maps.
      params[:status] = "warped"
      params[:format] = "image/png"
      params[:service] = "WMS"
-     params[:version] = "1.1.1"
+params[:version] = "1.1.1"
+#params[:version] = "1.3.0"
      params[:request] = "GetMap"
      params[:srs] = "EPSG:900913"
      params[:width] = "256"
@@ -1039,12 +1124,16 @@ end
     #use Map.map_file_path so we don't have to do a db call
     status = params["STATUS"].to_s.downcase || "unwarped"
     styles = "&styles=" # required to stop mapserver being pedantic on older versions
+
+logger.debug "BWE in mapserver_wms: "+MAPSERVER_URL
+
      if status == "unwarped"
       mapserver_url = MAPSERVER_URL + '?map=' + Map.mapfile_path(params[:id])  + styles + "&layers=" + params[:id].to_s + "_original"
     else
       mapserver_url = MAPSERVER_URL + '?map=' + Map.mapfile_path(params[:id])  + styles + "&layers=" + params[:id].to_s
     end
     mapserver_url += "&"+request.query_string
+
     redirect_to(mapserver_url)
   end
 
@@ -1056,6 +1145,7 @@ def semi_verify_authenticity_token
   end
 end
 
+
   def set_session_link_back link_url
     session[:link_back] = link_url
   end
@@ -1065,7 +1155,7 @@ end
     if @link_back.nil?
       @link_back = url_for(:action => 'index')
     end
-  
+
     session[:link_back] = @link_back
   end
 
@@ -1114,7 +1204,7 @@ end
 
     @map = Map.find(params[:id])
 
-    if @map.status.nil? or @map.status == :unloaded or @map.status == :loading 
+    if @map.status.nil? or @map.status == :unloaded or @map.status == :loading
       redirect_to map_path
     elsif  (!@map.public? and !logged_in?) or((!@map.public? and logged_in?) and !(current_user.own_this_map?(params[:id])  or current_user.has_role?("editor")) )
        redirect_to maps_path
@@ -1201,5 +1291,22 @@ end
     end
   end
 
+
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - added init_nepa_document
+# If the current map is a nepa project map, initialize the NepaDocument object (has_one association)
+### ------------------------------------------------------------------------------------------------------------------------ ###
+  def init_nepa_document
+
+	logger.debug "[ BWE DEBUG ][ BWE DEBUG ][ BWE DEBUG ][ BWE DEBUG ][ BWE DEBUG ] init_nepa_document"
+
+	# if @map.project_map? and @map.nepa_document.nil?
+	if @map.nepa_document.nil?
+		@map.nepa_document = NepaDocument.new
+		logger.debug "[ BWE DEBUG ][ BWE DEBUG ][ BWE DEBUG ][ BWE DEBUG ][ BWE DEBUG ] NepaDocument.new"
+		#@map.nepa_document.save
+	end
+  end
 
 end

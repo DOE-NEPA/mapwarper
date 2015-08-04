@@ -10,13 +10,16 @@
     <input type="submit" value=" Go " />
   <% end -%>
 <% end %>
+
 <h2>Users
   <% if @group -%> in Group <%= @group.id.to_s -%>. <% end -%>
   <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
   <%end-%></h2>
 
-<%= will_paginate @users %>
-<table class="usertable">
+
+<%= will_paginate @users, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+
+<table class="table">
   <thead>
     <tr>
       <%= sort_header_tag('login', :title => "Username") %>
@@ -32,5 +35,4 @@
     <%= render :partial => "user", :collection => @users %>
   </tbody>
 </table>
-<%= will_paginate @users %>
-
+<%= will_paginate @users, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>

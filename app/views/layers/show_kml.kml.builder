@@ -27,7 +27,7 @@ xml.kml(:xmlns => "http://www.opengis.net/kml/2.2") do
       east = coords[2].to_f
       north = coords[3].to_f
       drawOrder = coords[4].to_i
-      baseurl = wms_baseurl + '?service=wms&VERSION=1.1.1&request=GetMap&srs=EPSG:4326&width='+width.to_s+'&height='+height.to_s+'&format=image/png&transparent=true&layers=image&styles='
+baseurl = wms_baseurl + '?service=wms&VERSION=1.1.1&request=GetMap&srs=EPSG:4326&width='+width.to_s+'&height='+height.to_s+'&format=image/png&transparent=true&layers=image&styles='
       xml.Region {
         xml.Lod {
           xml.minLodPixels(128);

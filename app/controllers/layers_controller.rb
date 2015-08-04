@@ -2,7 +2,13 @@ class LayersController < ApplicationController
 
 
   layout 'layerdetail', :only => [:show,  :edit, :export, :metadata]
-  before_filter :login_or_oauth_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - change login_or_oauth_required to login_required
+### ------------------------------------------------------------------------------------------------------------------------ ###
+  before_filter :login_required , :except => [:wms, :wms2, :show_kml, :show, :index, :metadata, :maps, :thumb, :geosearch, :comments, :tile]
+
+
   before_filter :check_administrator_role, :only => [:publish, :toggle_visibility, :merge] # :remove_map, :update_year, :update, :destroy, :create
   before_filter :find_layer, :only => [:show, :export, :metadata, :toggle_visibility, :update_year, :publish, :remove_map, :merge, :maps, :thumb, :comments]
   before_filter :check_if_layer_is_editable, :only => [:edit, :update, :remove_map, :update_year, :update, :destroy]
@@ -32,7 +38,13 @@ class LayersController < ApplicationController
     sort_init 'updated_at'
     sort_update
 
-    extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE update - updated extents
+### ------------------------------------------------------------------------------------------------------------------------ ###
+    #extents = [-74.1710,40.5883,-73.4809,40.8485] #NYC
+#from http://boundingbox.klokantech.com/
+#[[[-161.530959125,10.2649701716],[-161.530959125,54.55922661],[-62.6665849,54.55922661],[-62.6665849,10.2649701716],[-161.530959125,10.2649701716]]]
+extents = [-161.530959125,10.2649701716, -62.6665849,54.55922661]
 
     #TODO change to straight javascript call.
     if params[:place] && !params[:place].blank?
@@ -441,6 +453,7 @@ end
       end
 
       ows.setParameter("VeRsIoN","1.1.1")
+
       ows.setParameter("STYLES", "")
       ows.setParameter("LAYERS", "image")
       #ows.setParameter("COVERAGE", "image")
@@ -597,6 +610,7 @@ end
      params[:format] = "image/png"
      params[:service] = "WMS"
      params[:version] = "1.1.1"
+     
      params[:request] = "GetMap"
      params[:srs] = "EPSG:900913"
      params[:width] = "256"

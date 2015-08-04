@@ -1,94 +1,233 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <title><%= h(@html_title) || ''-%> Map Warper </title>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-    <%= yield :head %>
-    <%= stylesheet_link_tag "openlayers/theme/default/style" %>
+  <title><%= h(@html_title) || ''-%> NEPA Map Warper </title>
+
+  <%= yield :head %>
+  <%= stylesheet_link_tag "openlayers/theme/default/style" %>
+  <%= stylesheet_link_tag "layout-application" %>
+  <%= stylesheet_link_tag "tagcloud" %>
+
+  <!-- Bootstrap core CSS -->
+  <%= stylesheet_link_tag "bootstrap.min" %>
+  <!-- Custom styles for this template -->
+  <%= stylesheet_link_tag "navbar-fixed-top" %>
+
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+<% if @geosearching %>
     <%= stylesheet_link_tag "styles_1" %>
 
-    <%= javascript_include_tag "jquery-1.3.2.min.js" %>
-    <%= javascript_include_tag "jquery-ui-1.7.custom.min.js" %>
-    <%= javascript_tag "jQuery.noConflict();" -%>
-    <%= javascript_include_tag "prototype" %>
+    <% @onload = "searchmapinit();" %>
+<% end %>
 
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
-      
-    <script language="javascript" type="text/javascript">
-      OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
-      var addthis_share =  {  templates: {
-          twitter: 'Checking out {{url}} (from @mapwarper)'
-        } };
-      var addthis_config = {
-        ui_click : true
-      };
 
-      function jsToQueryString(obj) {
-        var s = "?";
-        for (var o in obj) {
-          if (obj.hasOwnProperty(o)) {
-            s += o + "=" + obj[o] + "&";
-          }
-        }
-        return s.substring(0, s.length - 1);
-      }
-      function queryStringToJs(qstring) {
-        if (qstring.indexOf("?") == -1) {
-          return {};
-        }
-        var q = qstring.split("?")[1];
-        var args = {};
-        var vars = q.split('&');
-        //    console.log(vars);
-        for (var i=0; i<vars.length; i++) {
-          var kv = vars[i].split('=');
-          var key = kv[0];
-          var value = kv[1];
-          args[key] = value;
-        }
-        return args;
-      }
+  <% # BWE DEBUG  %>
+  <% if false %>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700|Sorts+Mill+Goudy|Vidaloka' rel='stylesheet' type='text/css'>
+  <% end %>
+</head>
 
-      function reload_with_page(per_page){
-        var path = window.location.href.split('?')[0]
-        var qs_obj = queryStringToJs(window.location.search);
-        qs_obj.per_page = per_page;
-        qs_obj.page = 1;
-        var qs_str = jsToQueryString(qs_obj)
-        var url = path + qs_str
-        window.location = url
-      }
-    </script>
 
-  </head>
-  <% if @onload -%>
-    <body onload="<%=@onload%>">
-    <%else-%>
-      <body>
-      <%end%>
-      <div id="headerDiv" class="headerDiv">
-        <h1><%= link_to "Map Warper", root_path %></h1>
-        <%= render :partial => 'shared/header' %>
-        <%= render :partial => 'shared/nav' %>
+
+<% if @onload -%>
+<body onload="<%=@onload%>">
+<%else-%>
+<body>
+<%end%>
+
+<% unless @hidenav %>
+<%= render :partial => 'shared/nav' %>
+<% end %>
+
+<% if @homepage %>
+  <div class="jumbotron">
+    <!-- Main component for a primary marketing message or call to action -->
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <img src="http://warp.nepanode.anl.gov/images/nepanode_mapwarper.png"/>
+
+          <h1>NEPA Map Warper</h1>
+          <p>It's a free to use, open source map image warper / georeferencer. It allows you to convert static images into usable Geospatial Data.</p>
+          <p>Note: This site is part of the NEPAnode pilot project and is under continuous development</p>
+          <p>
+            <% if logged_in? %>
+            <%= link_to "Sign Up &raquo;", new_user_path, :class => "btn btn-primary btn-lg", :role => "button" %>
+            <% end %>
+            <a class="btn btn-primary btn-lg" href="http://54.236.235.110/uploaded/documents/NEPAnode_MapWarper_-_How_To.pdf" role="button">Read How-to &raquo;</a>
+          </p>
+        </div>
+        <div class="col-md-6">
+          <div class="embed-responsive embed-responsive-4by3">
+            <iframe class="embed-responsive-item" src="http://www.youtube.com/embed/5InFDAb5Bm0" allowfullscreen=""></iframe>
+          </div>
+        </div>
       </div>
-      <%= breadcrumbs "application" %>
-      <div id="warper-maindiv">
+    </div> <!-- /container -->
+  </div> <!-- /jumbotron -->
+<% end %>
 
-        <%= flash_messages %>
 
-        <%= yield %>
+  <div class="container">
+
+
+    <!-- messages -->
+    <% unless flash.empty? %>
+      <div class="alert alert-warning" role="alert">
+        <% flash.each do |key, value| %>
+        <div class="flash <%= key %>"><%= value %></div>
+        <% end %>
       </div>
-
-      <div id="footer">
-        <%= render :partial => 'shared/footer' %>
-      </div>
-
-      <%= render :partial => 'shared/analytics' %>
-    </body>
+    <% end %>
+    <!-- Main Content -->
+    <%= yield %>
 
 
+  </div> <!-- /container -->
 
-</html>
 
+  <% unless @hidenav %>
+  <%= render :partial => 'shared/footer' %>
+  <% end %>
+
+  <%= render :partial => 'shared/analytics' %>
+
+  <% if @geosearching %>
+  <!-- ==================================================================================================== -->
+  <%= javascript_include_tag "jquery-1.3.2.min.js" %>
+  <%= javascript_tag "$jq_old = jQuery.noConflict(true);" -%>
+  <script type="text/javascript">
+  var jq_old_browser = $jq_old.browser;
+  </script>
+  <!-- ==================================================================================================== -->
+  <% end %>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <%= javascript_include_tag "jquery-1.11.1.min.js" %>
+  <%= javascript_include_tag "bootstrap.min.js" %>
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <%= javascript_include_tag "ie10-viewport-bug-workaround.js" %>
+
+
+
+  <script language="javascript" type="text/javascript">
+    jQuery(document).ready(function(){
+
+      <% if @geosearching %>
+
+
+        jQuery("input#nepa_all_maps").click(function(){
+          nepaParam = '';//defined below
+          do_search();//in geosearch.js
+        });
+
+        jQuery("input#nepa_project_maps").click(function(){
+          nepaParam = '?p';//defined below
+          do_search();//in geosearch.js
+        });
+
+        jQuery("input#nepa_reference_maps").click(function(){
+          nepaParam = '?r';//defined below
+          do_search();//in geosearch.js
+        });
+
+      <% else %>
+      jQuery("div#nepa-search-panel-string").hide();
+      jQuery("div#nepa-search-panel-keyword").hide();
+
+
+      // set onlick event for buttons
+      jQuery("button#nepa-search-btn-string").click(function(){
+        jQuery("div#nepa-search-panel-string").show();
+        jQuery("div#nepa-search-panel-keyword").hide();
+
+      });
+      jQuery("button#nepa-search-btn-keyword").click(function(){
+        jQuery("div#nepa-search-panel-string").hide();
+        jQuery("div#nepa-search-panel-keyword").show();
+
+      });
+      <% end %>
+
+    });
+  </script>
+
+
+
+<% if @geosearching %>
+
+<!-- ==================================================================================================== -->
+<% # BWE DEBUG - jquery.history-warper.js and jquery-ui-1.7.custom.min.js modified to use jq_old_browser from an old jQuery instead of the newer one which no longer offers the browser object  %>
+<%= javascript_include_tag "jquery-ui-1.7.warper.min.js" -%>
+<!-- ==================================================================================================== -->
+
+<%= javascript_include_tag "jquery-warper" -%>
+<%= javascript_tag "jQuery.noConflict();" -%>
+
+<%= javascript_include_tag "prototype" %>
+
+<script type="text/javascript">
+
+// COPIED FROM http://stackoverflow.com/questions/19139063/twitter-bootstrap-3-dropdown-menu-disappears-when-used-with-prototype-js
+
+(function() {
+  var isBootstrapEvent = false;
+  if (window.jQuery) {
+    var all = jQuery('*');
+    jQuery.each(['hide.bs.dropdown',
+    'hide.bs.collapse',
+    'hide.bs.modal',
+    'hide.bs.tooltip',
+    'hide.bs.popover'], function(index, eventName) {
+      all.on(eventName, function( event ) {
+        isBootstrapEvent = true;
+      });
+    });
+  }
+  var originalHide = Element.hide;
+  Element.addMethods({
+    hide: function(element) {
+      if(isBootstrapEvent) {
+        isBootstrapEvent = false;
+        return element;
+      }
+      return originalHide(element);
+    }
+  });
+})();
+</script>
+
+
+<%= javascript_include_tag "openlayers/2.8/OpenLayers-2.8/OpenLayers" %>
+<%= javascript_include_tag "SelectFeatureNoClick" %>
+<script type="text/javascript">
+OpenLayers.ImgPath = '<%=request.protocol + request.host_with_port + ActionController::Base.relative_url_root.to_s%>/javascripts/openlayers/img/';
+var gs_bounds = new OpenLayers.Bounds(<%=@bbox-%>);
+var mapBaseURL = '<%=url_for :controller=> 'maps' %>';
+var mapThumbBaseURL = "<%= url_for :controller => 'maps', :action => 'thumb'-%>/";
+var nepaParam = '';
+</script>
+<%= javascript_include_tag "layers" %>
+<%= javascript_include_tag "geosearch" %>
+<%= javascript_include_tag "geosearch-map" %>
+
+<% end %>
+
+
+
+
+</body></html>

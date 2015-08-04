@@ -81,6 +81,7 @@ function init() {
     to_map.addLayer(mapnik);
     to_map.addLayer(osma);
     to_map.addLayer(oamlayer);
+
     jpl_wms.setVisibility(false);
     to_map.addLayer(jpl_wms);
 

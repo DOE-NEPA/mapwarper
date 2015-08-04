@@ -1,46 +1,29 @@
 
-<div id="search-form"><%= render :partial => 'shared/search' -%>
-<br />
-New: <%= link_to 'Find Rectified Maps by Location',  url_for(:controller => 'maps', :action=>'geosearch'), :class => "buttonWarper" %>
-</div>
-
-<div class="browse">
-
   <h2>Browse NEPA Referenence Maps
     <%if @query && @query.length > 0 %>&mdash; Searched for "<%=@query%>"
     <%end-%>
   </h2>
 
-  <div id="search-sort">
-    <%= render :partial => 'shared/sort' -%>
-  </div>
-  <div class="warper_pagination">
-    <div id="search-pagination-top">
-      <%= will_paginate @maps %>
-    </div>
-  </div>
+  <%= render :partial => 'shared/search' -%>
 
-  <table id="map_table" cellpadding="3">
+  <%= will_paginate @maps, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+
+  <table class="table">
     <thead>
       <tr>
-      <th>Map</th>
-      <th>Title</th>
-      <th>Last modified</th>
-      <th>Status</th>
+        <th>Map</th>
+        <%= sort_header_tag('title', :title => "Title") %>
+        <%= sort_header_tag('updated_at', :title => "Last modified") %>
+        <%= sort_header_tag('status', :title => "Status") %>
       </tr>
     </thead>
 
-    <tbody id="results">
+    <tbody>
       <%= render :partial => 'map', :collection => @maps unless @maps.nil? %>
     </tbody>
   </table>
 
-  <div class="warper_pagination">
-    <div id="search-pagination-bottom">
-      <%= will_paginate @maps %>
-      <div class="per_page_select">
-        <%= page_entries_info @maps %>.&nbsp;<%= select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
-      </div>
-    </div>
-  </div>
+<%= will_paginate @maps, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+<div class="per_page_select">
+  <%= page_entries_info @maps %>.&nbsp;<%= select_tag :per_page, options_for_select([10,20,50,100], @per_page.to_i), :onchange => "if(this.value){reload_with_page(this.value)};" %> per page.
 </div>

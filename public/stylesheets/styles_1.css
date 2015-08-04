@@ -1,8 +1,10 @@
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */ /*added by karen*/
 
+
+/* BWE UPDATE - commented this -
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -12,8 +14,8 @@ b, u, i, center,
 dl, dt, dd, ol, ul, li,
 fieldset, form, label, legend,
 table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
 	margin: 0;
@@ -23,8 +25,11 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+*/
+
 /* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, 
+/* BWE UPDATE - commented this -
+article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
@@ -46,9 +51,10 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
+*/
 /* end reset */
 
+/* BWE UPDATE - commented this -
 tr.import-maps textarea{
     margin-left:4.5em;
 }
@@ -98,10 +104,12 @@ div.comment span.comment_metadata {
 	font-weight: bold;
 	margin-top: 24px;
 }
+*/
 
 /*
 * for map form
 */
+/* BWE UPDATE - commented this -
 div.span-12, div.span-24 {float:left;margin-right:10px;}
 .span-12 {width:370px;}
 .span-24 {width:910px;}
@@ -109,6 +117,7 @@ div.span-12, div.span-24 {float:left;margin-right:10px;}
 div.last {margin-right:0;}
 form.new_map {float: left;}
 form.edit_map {float: left;}
+
 .tiny-text {
     font-size: 0.6em;
 }
@@ -120,6 +129,7 @@ form.edit_map {float: left;}
 .tags {
   font-size: 0.8em;
 }
+*/
 
 div#to_map_notification{
   top: 2px;
@@ -148,6 +158,7 @@ div#to_map_notification_inner{
  margin-right: 15px;
 }
 
+/* BWE UPDATE - commented this -
 div#export_toolbox {
 font-style: normal;
 }
@@ -202,6 +213,7 @@ list-style-type: none;
 margin-left: 0px;
 padding-left: 0px;
 }
+*/
 
 div.addthis_toolbox {
 float:left;
@@ -213,14 +225,17 @@ a.addthis_button_compact{
   font-size:12px;
 }
 
+/* BWE UPDATE - commented this -
 #view-maps-index-link {
   font-size: 10px;
   font-weight: normal;
 }
 
+
 .searchmap-popup {
 font-size: 10px;
 }
+*/
 
 #searchmap
 {     margin-left: 2px;
@@ -290,6 +305,7 @@ display: inline;
 padding-bottom:5px;
 }
 
+/* BWE UPDATE - commented this -
 .map-type-form {
  display: inline;
 }
@@ -310,6 +326,7 @@ padding-bottom:5px;
 #dig-panel {
  border: 1px solid #D0D0D0;
 }
+*/
 
 #warped-slider {
   bottom: 30px;
@@ -325,7 +342,20 @@ padding-bottom:5px;
   height: 15px;
 }
 
+#digitizer-slider {
+  bottom: 30px;
+  width: 15em;
+  margin-bottom: -10px;
+  margin-left:auto;
+  margin-right:auto;
+  z-index: 1500;
+  height: 8px;
+}
+#digitizer-slider .ui-slider-handle{
+  height: 15px;
+}
 
+/* BWE UPDATE - commented this -
 .moar-button {
 width: 90%;
 height: 2.7em;
@@ -340,19 +370,21 @@ ul.list {
 .admin-only {
   color: #00FF00;
 }
+*/
 
+/* BWE UPDATE - commented this -
 body
 {
   	background: #fff;
-	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif; /*KAREN CHANGED ORDER OF FONTS*/
-	line-height:1.5; /*KAREN ADDED*/
+	font-family:Lato, 'Segoe UI', 'Lucida Grande', 'Century Gothic', Helvetica, Arial, Verdana, sans-serif; //KAREN CHANGED ORDER OF FONTS
+	line-height:1.5; //KAREN ADDED
 	font-size:100%;
-	color: #666; /*KAREN CHANGED*/
+	color: #666; //KAREN CHANGED
 	font-size:16px;
 }
 
 h1 {
-font-size: 28px; 	
+font-size: 28px;
 }
 
 h2 {
@@ -364,29 +396,31 @@ font-size: 24px;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	color: #222; /*karen changed*/
-/*	font-family:'Sorts Mill Goudy';*/
+	color: #222; //karen changed
+//	font-family:'Sorts Mill Goudy';
 	margin:10px 0;
 }
 
-a/*, a:link */{
-	color: #222;
+a
+//, a:link
+{
+	color: #006600;
 	text-decoration: none;
 }
 
 a:hover {
-	color:#447a05;
+	color:#000;
 }
 
 
 
 h1 {
-	background: url(/images/header_logo.png) 0 50% scroll no-repeat; 
-  padding: 10px 1em; 
+	background: url(/images/nepanode_mapwarper.png) 0 50% scroll no-repeat;
+  padding: 10px 1em;
 }
 
 h1 a, h1 a:link, h1 a:visited {
-	color: #000;
+	color: #006600;
 }
 
 .paraMargin {
@@ -398,7 +432,7 @@ h1 a, h1 a:link, h1 a:visited {
 }
 
 p {
-/*	line-height: 1.6;*/ /*REMOVED BY KAREN*/
+//	line-height: 1.6; //REMOVED BY KAREN
 }
 .nypl_link {
 	background: #5e564b;
@@ -409,10 +443,12 @@ p {
 .nypl_link a, .nypl_link a:link, .nypl_link a:visited {
 	color: #fff;
 }
+*/
 
-.buttonWarper, input[type="submit"], .headerDiv .user_status a  {
-	background: #191970;
- 	color:#e3e3d4;
+/* BWE UPDATE - commented this - .buttonWarper, input[type="submit"], */
+.headerDiv .user_status a  {
+	background: #006600;
+ 	color:#fff;
 	font-weight: 600;
 	padding: 6px 6px 3px 6px; /*KAREN CHANGED AND REMOVED IMPORTANT*/
 	border-radius:4px;
@@ -428,18 +464,19 @@ p {
 }
 
 #warper-maindiv .buttonWarper {
-	background:#556b2f;
+	background:#006600;
 }
 
 #warper-maindiv .buttonWarper:hover {
-	color:#556b2f;
-	background: #E3E3D4;
+	color:#006600;
+	background: #fff;
 }
 
+/* BWE UPDATE - commented this -
 input[type="text"], input[type="password"], select {
 	border-radius:4px;
 	padding:4px 3px;
-} 
+}
 
 input[type="submit"], .submitStyle  {
 	padding:6px 3px 5px 3px;
@@ -452,16 +489,18 @@ select {
 	border:1px solid #ccc;
 }
 
-.buttonWarper:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { /*KAREN ADDED*/
+.buttonWarper:hover, input[type="submit"]:hover, .headerDiv .user_status a:hover { //KAREN ADDED
     box-shadow:1px 2px 4px 2px rgba(0,0,0,0.2), inset 1px 2px 4px rgba(255,255,255,0.4);;
 	background: #e3e3d4;
-	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
+	background:rgba(255,255,255,0.7); //KAREN ADDED
 	color:#191970;
 	-moz-transition:all 0.42 ease-in-out;
 	-webkit-transition:all 0.2s ease-in-out;
 	transition:all 0.2s ease-in-out;
 
 }
+*/
+
 
 #sortable {list-style-type: none;}
 #sortable li {margin: 3px 3px 3px 0; padding: 1px; float: left; width: 150px; height: 150px; font-size: 2em; text-align: center;line-height:150px; }
@@ -508,7 +547,7 @@ font-weight: strong;
 
 .headerDiv {
 	position: relative;
-	background: #e2dedb url(/images/header_bg.jpg) 0 -30px scroll; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
+	background: #333; /*PLEASE CHANGE PATH TO /images/header_bg.jpg*/
 	padding: 2px 10px 0 10px;
 }
 
@@ -555,6 +594,7 @@ color:#3d5b08 !important;
 font-size:160%;
 }
 
+/* BWE UPDATE - commented this -
 .list-item {
 	padding-bottom:14px;
 }
@@ -629,7 +669,7 @@ width: 100%;
 	border: 1px solid #ccc;
 	border-radius:6px;
 	margin-bottom: 10px;
-	overflow:hidden; /*to clear float*/
+	overflow:hidden; /to clear float
 }
 #searchform #query{
       width:10em;
@@ -714,9 +754,9 @@ clear: both;
 }
 
 .clear{
-	clear: both;        /* extend height of .main to longest column */
+	clear: both;        // extend height of .main to longest column
 	height: 1px;
-    overflow: hidden;   /* prevent IE expanding the container */
+    overflow: hidden;   // prevent IE expanding the container
 
 }
 #container {
@@ -737,13 +777,13 @@ clear: both;
 }
 
 #right-col{
-/*margin-left:386px;*/
+//margin-left:386px;
 padding: 10px;
 }
 
 #whats_this_all_about
 {
- 
+
 
 }
 
@@ -756,17 +796,20 @@ padding: 10px;
 .ui-tabs-nav li a {
 padding: 0.5em 0.6em !important;
 }
+*/
+
 #panel-under-tabs{
   clear: both;
- /* border-right: 1px solid #776655;
-  border-left: 1px solid #776655;
-  border-bottom: 1px solid #776655;
- */
+ // border-right: 1px solid #776655;
+//  border-left: 1px solid #776655;
+//  border-bottom: 1px solid #776655;
+
   padding-top:0.6em;
  position: relative;
  z-index: 10;
 }
 
+/* BWE UPDATE - commented this -
 .map_links_bigger {
  font-size:100%;
 	margin: .5em 0;
@@ -774,7 +817,7 @@ padding: 0.5em 0.6em !important;
 
 .map_links
 {
-	font-size:60%;
+	font-size:80%;
 	display: block;
 }
 
@@ -782,8 +825,8 @@ padding: 0.5em 0.6em !important;
  display: none;
   }
 
-.unhidden { 
-display: block; 
+.unhidden {
+display: block;
 }
 
 #scriptout{
@@ -845,7 +888,7 @@ font-weight: bold;
 
 #navlist {
 	padding: 3px 0 0 1em;
-	border-bottom: 1px solid #999;
+	border-bottom: 4px solid #006600;
 	font-weight: bold;
 }
 
@@ -858,16 +901,16 @@ font-weight: bold;
 	margin-left: 3px;
 	border: 1px solid #999;
 	border-bottom: none;
-	background: #e3e3d4;
+	background: #fff;
 	text-decoration: none;
-	border-radius:4px 4px 0 0; /*added by karen*/
-	background: #ddd; /*KAREN CHANGED*/
-	background:rgba(255,255,255,0.7); /*KAREN ADDED*/
+	border-radius:4px 4px 0 0; //added by karen
+	background: #fff; //KAREN CHANGED
+	background: #fff; //KAREN ADDED
 }
 
 #navlist li a:hover {
-	background: #191970; /*KAREN CHANGED*/
-	color:#E3E3D4;
+	background: #006600; //KAREN CHANGED
+	color:#fff;
 	-moz-transition:all 0.3s ease-in-out;
 	-webkit-transition:all 0.3s ease-in-out;
 	transition:all 0.3s ease-in-out;
@@ -875,9 +918,9 @@ font-weight: bold;
 }
 
 #navlist li span {
-	background: #191970; /*KAREN CHANGED*/
-	color:#E3E3D4;
-	border-bottom: 1px solid #191970;
+	background: #006600; /KAREN CHANGED
+	color:#fff;
+	border-bottom: 1px solid #006600;
 }
 
 #footer {
@@ -902,7 +945,7 @@ font-weight: bold;
 	width: 40%;
 }
 
-.thWidth {
+thWidth. {
 	width: 50%;
 }
 
@@ -931,11 +974,11 @@ font-weight: bold;
 }
 
 #map_table tr:nth-of-type(odd), #layer_table tr:nth-of-type(odd) {
-	background: #EEEEE0;
+	background: #fff;
 }
 
 #map_table tr:nth-of-type(even), #layer_table tr:nth-of-type(even) {
-	background: #e5e5d5;
+	background: #fff;
 }
 
 #map_table td, #map_table th, #layer_table td, #layer_table th {
@@ -950,7 +993,7 @@ font-weight: bold;
 	font-size:90%;
 	text-transform:uppercase;
 }
- 
+
  #layer_table_detail td, #layer_table_detail th {
 	border-top: 1px solid #ccc;
         background: #ccffcc;
@@ -962,12 +1005,12 @@ font-weight: bold;
 
 
 #map_table th, #layer_table th {
-	background: #999;
+	background: #000;
 	color: #fff;
 }
 
 #map_table th:nth-child(odd), #layer_table th:nth-child(odd) {
-	background: #888;
+	background: #000;
 }
 
 #map_table a img, #layer_table a img, #results a img {
@@ -983,8 +1026,8 @@ font-weight: bold;
 
 
 .layer_mapcount {
-/*  font-size:1.1em;
-  font-weight:bold;*/
+//font-size:1.1em;
+  //font-weight:bold;
 }
 .layer_visibility {
 font-size:smaller;
@@ -1026,6 +1069,9 @@ font-style:italic;
 	border:0;
 	padding:0;
 }
+*/
+
+
 
 
 #map, #unmap, #clipmap, #warpedmap
@@ -1062,14 +1108,15 @@ font-style:italic;
 	text-align:center;
 }
 
+/* BWE UPDATE - commented this -
 #gcp input.gcp_button
 {
 	font-size:84%;
 	font-weight:bold;
 	margin-top:5px;
 	padding:2px;
-        /* cursor: pointer; */
-        
+        // cursor: pointer;
+
 }
 
 #gcp input.gcp_button_highlighted
@@ -1080,17 +1127,12 @@ font-style:italic;
 	padding:2px;
         cursor: pointer;
         border: 2px solid #00F2AB;
-        
+
 }
 
 .map {
   cursor: crosshair;
 }
-
-/* #div_gcp_form input */
-/* { */
-/* 	width:120px; */
-/* } */
 
 
 #cliphelp img {
@@ -1183,8 +1225,9 @@ table#gcp_table input.green {
 color: #00e400;
 }
 table#gcp_table input.blue {
-color: #00aeff; 
+color: #00aeff;
 }
+*/
 
 #from_map,#to_map
 {
@@ -1194,6 +1237,8 @@ color: #00aeff;
         cursor: crosshair;
 
 }
+
+/* BWE UPDATE - commented this -
 .map-off {
 	border:2px solid #999999;
 }
@@ -1204,7 +1249,7 @@ color: #00aeff;
 .highlighted {
 border:2px solid #00f2ab;
 }
-
+*/
 
 /* OPENLAYERS spechul stilz */
 div.olControlMousePosition
@@ -1237,7 +1282,7 @@ div.olControlMousePosition
     border:1px solid gray;
 }
 
-.olControlEditingToolbar div { 
+.olControlEditingToolbar div {
   float:right;
   width:  24px;
   height: 24px;
@@ -1252,64 +1297,64 @@ div.olControlMousePosition
     border:1px solid gray;
 }
 
-.olControlEditingToolbar2 div { 
+.olControlEditingToolbar2 div {
   float:right;
   width:  24px;
   height: 24px;
   margin: 5px;
 }
 
-.olControlEditingToolbar .olControlDrawFeaturePointItemActive { 
+.olControlEditingToolbar .olControlDrawFeaturePointItemActive {
   background-image: url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -128px -23px; 
+  background-position: -128px -23px;
 }
-.olControlEditingToolbar .olControlDrawFeaturePointItemInactive { 
+.olControlEditingToolbar .olControlDrawFeaturePointItemInactive {
   background-image: url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -128px -0px; 
-}
-
-.olControlEditingToolbar2 .olControlDrawFeatureItemActive { 
-  background-image: url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -26px -23px; 
-}
-.olControlEditingToolbar2 .olControlDrawFeatureItemInactive { 
-  background-image: url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -26px -0px; 
-}
-.olControlEditingToolbar2 .olControlModifyFeatureItemActive { 
-  background-image: url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -153px -23px; 
-}
-.olControlEditingToolbar2 .olControlModifyFeatureItemInactive { 
-  background-image: url("editing_tool_bar_with_pin2.gif");
-  background-repeat: no-repeat;
-  background-position: -153px -0px; 
+  background-position: -128px -0px;
 }
 
-.olControlEditingToolbar .olControlNavigationItemActive { 
+.olControlEditingToolbar2 .olControlDrawFeatureItemActive {
   background-image: url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -23px; 
+  background-position: -26px -23px;
 }
-.olControlEditingToolbar .olControlNavigationItemInactive { 
+.olControlEditingToolbar2 .olControlDrawFeatureItemInactive {
   background-image: url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -0px; 
+  background-position: -26px -0px;
 }
-.olControlEditingToolbar2 .olControlNavigationItemActive { 
+.olControlEditingToolbar2 .olControlModifyFeatureItemActive {
   background-image: url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -23px; 
+  background-position: -153px -23px;
 }
-.olControlEditingToolbar2 .olControlNavigationItemInactive { 
+.olControlEditingToolbar2 .olControlModifyFeatureItemInactive {
   background-image: url("editing_tool_bar_with_pin2.gif");
   background-repeat: no-repeat;
-  background-position: -103px -0px; 
+  background-position: -153px -0px;
+}
+
+.olControlEditingToolbar .olControlNavigationItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px;
+}
+.olControlEditingToolbar .olControlNavigationItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px;
+}
+.olControlEditingToolbar2 .olControlNavigationItemActive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -23px;
+}
+.olControlEditingToolbar2 .olControlNavigationItemInactive {
+  background-image: url("editing_tool_bar_with_pin2.gif");
+  background-repeat: no-repeat;
+  background-position: -103px -0px;
 }
 
 .olControlEditingToolbar .olControlDragFeatureItemInactive {
@@ -1335,12 +1380,14 @@ div.olControlMousePosition
 
 }
 
+
+/* BWE UPDATE - commented this -
 .headerDiv h1 {
-	font-size:36px; /*change later*/
+	font-size:36px; /change later
 	font-family:Vidaloka, Georgia, "Times New Roman", Times, serif;
 	margin-left:20px;
 	line-height: 1;
-    padding: 8px 0 7px 60px !important;
+    padding: 90px 0 7px 60px !important;
 }
 
 .breadCrumb {
@@ -1351,3 +1398,4 @@ div.olControlMousePosition
 .breadCrumb a:last-of-type {
 	color: #191970;
 }
+*/

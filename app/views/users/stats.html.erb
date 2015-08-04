@@ -1,7 +1,8 @@
 <h2>User Statistics</h2>
 
-<%= will_paginate @users_activity %>
-<table class="usertable">
+<%= will_paginate @users_activity, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>
+
+<table class="table">
   <thead>
     <tr>
       <%= sort_header_tag('username', :title => "User") %>
@@ -17,7 +18,7 @@
   <tbody>
 
     <% @users_activity.each do | user | %>
-      <tr class="<%= cycle('table0', 'table1') -%>">
+      <tr class="table">
         <td><% if user.user_id %>
             <%= link_to(user.username, user_path(user.user_id))%>
           <% else %>
@@ -41,5 +42,4 @@
 
   </tbody>
 </table>
-<%= will_paginate @users_activity %>
-
+<%= will_paginate @users_activity, :previous_label => '&laquo;', :next_label => '&raquo;', renderer: BootstrapPagination::Rails %>

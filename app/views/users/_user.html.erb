@@ -1,4 +1,4 @@
-<tr class="<%= cycle('table0', 'table1') -%>">
+<tr class="table">
   <td><%= link_to(( h user.login), user_path(user.id), :method => :get)  -%></td>
   <% if admin_authorized? %>
     <td><%=h user.email -%></td>

@@ -22,42 +22,82 @@
       </span>
       <% if !map.public? %><span class="publicprivate">(Not listed)</span><% end-%>
     </div>
-    <div class="map_links_bigger">
-      <%= link_to("View Map",map) -%>
-      |
-      <% if !admin_authorized? && map.published? %>
-        <strong title ="This map has been published by an admin and no further editing is possible">Published</strong>
-      <%  else %>
-        <%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
-       <% end %>
-      <% if logged_in? -%>
-        <% current_user_maps = current_user.maps %>
-        <% if current_user_maps.to_a.include?(map) -%>
-          | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>
-        <% else -%>
-          | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>
-        <% end -%>
-      <% end -%>
 
 
-      <% if admin_authorized? and @layer -%>
-        | <%= link_to "remove map from this layer", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
-      <%end -%>
+	<%=
+	### ------------------------------------------------------------------------------------------------------------------------ ###
+	### BWE UPDATE - added code to assign a nepa document (id in the query string) to the current map
+	### ------------------------------------------------------------------------------------------------------------------------ ###
+	-%>
+	<% if !@nepa_document_id.nil? %>
+	<%=
+		#link_to "Select Map for NEPA Document", assign_nepa_document_path(@nepa_document_id), :nepa_document_map_id => map.id
+		link_to "Select Map for NEPA Document", :controller => 'nepa_documents', :action =>'assign', :nepa_document_id => @nepa_document_id, :nepa_document_map_id => map.id
+	-%>
+	<%=
+	### ------------------------------------------------------------------------------------------------------------------------ ###
+	### BWE UPDATE - conditionally show the normal map controls
+	### ------------------------------------------------------------------------------------------------------------------------ ###
+	-%>
+	<% else %>
 
-      <% if admin_authorized? -%>
-        <% @map = map-%>
-        | <%= render :partial  => 'maps/map_type', :object => @map -%>
-      <% end -%>
 
-      <%if map.warped_or_published?-%> |
-        <%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
-      <% end -%>
-    </div>
-    <div class="map_links">
-      <% if map.source_uri %>
-      Links: <%= link_to 'Source / Biblio Ref', map.source_uri  %>
-       <% end %>
-    </div>
+  <%=
+  ### ------------------------------------------------------------------------------------------------------------------------ ###
+  ### BWE UPDATE - added code to assign a nepa document (id in the query string) to the current map
+  ### ------------------------------------------------------------------------------------------------------------------------ ###
+  -%>
+  <% if false %>
+
+	    <div class="map_links_bigger">
+
+	      <%= link_to("View Map",map) -%>
+	      |
+	      <% if !admin_authorized? && map.published? %>
+		<strong title ="This map has been published by an admin and no further editing is possible">Published</strong>
+	      <%  else %>
+		<%= link_to("Rectify Map", map_path(:id=> map,:anchor=>"Rectify_tab")) -%>
+	       <% end %>
+	      <% if logged_in? -%>
+		<% current_user_maps = current_user.maps %>
+		<% if current_user_maps.to_a.include?(map) -%>
+		  | <%= link_to('Remove from My Maps', destroy_my_map_path(:user_id => current_user, :map_id => map), :method => :post, :confirm => "really remove this map from your list?") -%>
+		<% else -%>
+		  | <%= link_to('Save to My Maps', add_my_map_path(:user_id => current_user, :map_id => map), :method => :post) -%>
+		<% end -%>
+	      <% end -%>
+
+
+	      <% if admin_authorized? and @layer -%>
+		| <%= link_to "remove map from this layer", {:controller => "layers", :action=>"remove_map", :id => @layer, :map_id => map} %>
+	      <%end -%>
+
+	      <% if admin_authorized? -%>
+		<% @map = map-%>
+		| <%= render :partial  => 'maps/map_type', :object => @map -%>
+	      <% end -%>
+
+	      <%if map.warped_or_published?-%> |
+		<%= link_to("Download KML", map_url(:id => map, :format=>:kml)) -%>
+	      <% end -%>
+
+	    </div>
+	    <div class="map_links">
+	      <% if map.source_uri %>
+	      Links: <%= link_to 'Project Website / Documents', map.source_uri  %>
+	       <% end %>
+	    </div>
+      <% end %>
+
+
+
+	<%=
+	### ------------------------------------------------------------------------------------------------------------------------ ###
+	### BWE UPDATE - end if assign nepa document else show normal controls
+	### ------------------------------------------------------------------------------------------------------------------------ ###
+	-%>
+	<% end %>
+
 
   </td>
   <td>

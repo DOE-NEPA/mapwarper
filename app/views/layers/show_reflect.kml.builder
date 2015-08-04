@@ -2,7 +2,7 @@ bbox =  params[:bbox] || @layer.bbox
 bounds = bbox.split(',')
 wms = 'http://'+request.host_with_port+'/cgi/mapserv.cgi' + '?map=' +
   Layer.mapfile_path(params[:id])  + '&layers=' + params[:id].to_s +
-  '&request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.se_inimage' +
+'&request=GetMap&version=1.1.1&styles=&format=image/png&srs=epsg:4326&exceptions=application/vnd.ogc.se_inimage' +
   '&WIDTH=1022&HEIGHT=817&bbox=' +   bbox  #we'll hardcode the width and height
 
 xml.instruct! :xml

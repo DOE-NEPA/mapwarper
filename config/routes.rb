@@ -1,14 +1,46 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :oauth_clients
 
-  map.test_request '/oauth/test_request', :controller => 'oauth', :action => 'test_request'
-  map.access_token '/oauth/access_token', :controller => 'oauth', :action => 'access_token'
-  map.request_token '/oauth/request_token', :controller => 'oauth', :action => 'request_token'
-  map.authorize '/oauth/authorize', :controller => 'oauth', :action => 'authorize'
-  map.oauth '/oauth', :controller => 'oauth', :action => 'index'
+
+map.waf '/waf', :controller => 'maps', :action => "waf_index"
+map.waf_show '/waf/:id.xml', :controller => 'maps', :action => "waf_show"
+
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE updates:  nepa lookup tables
+### ------------------------------------------------------------------------------------------------------------------------ ###
+map.resources :nepa_lookup_milestones
+
+
+
+
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE updates:  nepa map type routes
+### ------------------------------------------------------------------------------------------------------------------------ ###
+map.connect '/maps/project', :controller => 'maps', :action => 'nepaproject'
+map.connect '/maps/reference', :controller => 'maps', :action => 'nepareference'
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE updates:  nepa documents routes
+### ------------------------------------------------------------------------------------------------------------------------ ###
+  map.resources :nepa_documents
+  map.assign_nepa_document '/nepa_documents/:nepa_document_id/assign', :controller => 'nepa_documents', :action => 'assign'
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE updates:  nepa milestones routes
+### ------------------------------------------------------------------------------------------------------------------------ ###
+  map.resources :nepa_documents  do |nd|
+    nd.resources :nepa_milestones
+  end
+
+
 
   map.root :controller => "home", :action => "index"
-  
+
+  map.connect '/nepa_admin', :controller => "home", :action => "nepa_admin"
+  map.connect '/nepa_search', :controller => "home", :action => "nepa_search"
+
+
   map.user_activity '/users/:id/activity', :controller => 'audits', :action => 'for_user'
   map.formatted_user_activity '/users/:id/activity.:format', :controller => 'audits', :action => 'for_user'
   map.connect '/users/stats', :controller => 'users', :action => 'stats'
@@ -27,18 +59,22 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/gcp/', :controller => 'gcp', :action => 'index'
   map.connect '/gcp/:id', :controller => 'gcp', :action=> 'show'
-#  map.connect '/gcp/show/:id', :controller=> 'gcp', :action=>'show'
-  #map.connect '/gcps/update/:id', :controller => 'gcp', :action => 'update'
-  #map.connect '/gcps/update_field/:id', :controller => 'gcp', :action => 'update_field'
   map.connect '/gcp/destroy/:id', :controller => 'gcp', :action => 'destroy', :conditions => {:method => :delete}
   map.connect '/gcp/add/:mapid', :controller => 'gcp', :action => 'add'
 
 
   map.my_maps '/users/:user_id/maps', :controller => 'my_maps', :action => 'list'
-  #map.connect '/users/:user_id/maps/new', :controller => 'my_maps', :action => 'new'
-  #map.connect '/users/:user_id/maps/:id', :controller => 'my_maps', :action => 'show'
   map.add_my_map '/users/:user_id/maps/create/:map_id', :controller => 'my_maps', :action => 'create', :conditions => { :method => :post }
   map.destroy_my_map '/users/:user_id/maps/destroy/:map_id', :controller => 'my_maps', :action => 'destroy', :conditions => { :method => :post}
+
+
+
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE updates:  added omniauth callback routes
+### ------------------------------------------------------------------------------------------------------------------------ ###
+map.connect '/auth/:provider/callback', :controller => 'sessions', :action => 'omniauth_create'
+#map.connect '/auth/:provider/callback', :controller => 'sessions', :action => 'omniauth_create_debug'
+map.connect '/auth/failure', :controller => 'sessions', :action => 'omniauth_failure'
 
 
 
@@ -51,9 +87,9 @@ ActionController::Routing::Routes.draw do |map|
   map.change_password '/change_password',   :controller => 'user_accounts', :action => 'edit'
   map.forgot_password '/forgot_password',   :controller => 'passwords', :action => 'new'
   map.reset_password '/reset_password/:id', :controller => 'passwords', :action => 'edit'
-  # map.resources :users, :has_many => :user_maps,
   map.force_activate '/force_activate/:id', :controller => 'users', :action => 'force_activate', :conditions =>{:method => :put}
   map.disable_and_reset '/disable_and_reset/:id', :controller => 'users', :action => 'disable_and_reset', :conditions => {:method => :put}
+
   map.resources :users, :member => {:enable => :put, :disable => :put } do |users|
     users.resource :user_account
     users.resources :roles
@@ -69,7 +105,6 @@ ActionController::Routing::Routes.draw do |map|
   map.align_map '/maps/align/:id', :controller => 'maps', :action => 'align'
   map.warped_map '/maps/preview/:id', :controller => 'maps', :action => 'warped'
   map.export_map '/maps/export/:id', :controller => 'maps', :action => 'export'
-  #map.map_status '/maps/status/:id', :controller => 'maps', :action => 'status'
   map.map_status '/maps/:id/status', :controller => 'maps', :action => 'status'
   map.metadata_map '/maps/metadata/:id', :controller => 'maps', :action => 'metadata'
 
@@ -77,7 +112,7 @@ ActionController::Routing::Routes.draw do |map|
   map.formatted_export_map '/maps/export/:id.:format', :controller => 'maps', :action => 'export'
   map.wms_map '/maps/wms/:id', :controller => 'maps', :action => 'wms'
   map.wms_layer '/layers/wms/:id', :controller => 'layers', :action => 'wms'
-  
+
   map.comments_map '/maps/:id/comments', :controller => 'maps', :action => 'comments'
 
   map.connect '/maps/:id/rectify', :controller => 'maps', :action => 'rectify'
@@ -88,6 +123,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.connect '/maps/geosearch', :controller => 'maps', :action => 'geosearch'
   map.connect '/maps/geo', :controller => 'maps', :action => 'geo'
+
 
   map.map_tag '/maps/tag/:id', :controller => 'maps', :action => 'tag', :requirements => { :id => %r([^/;,?]+) }
 
@@ -115,17 +151,23 @@ ActionController::Routing::Routes.draw do |map|
   map.metadata_layer '/layers/metadata/:id', :controller => 'layers', :action => 'metadata'
   map.connect '/layers/tile/:id/:z/:x/:y.png', :controller => 'layers', :action => 'tile'
 
-  map.resources :groups 
-  
+  map.resources :groups
+
   map.new_group_user '/groups/:group_id/users/new', :controller => 'memberships', :action => 'new'
   map.destroy_group_user '/groups/:group_id/users/destroy/:id', :controller => 'memberships', :action => 'destroy', :conditions => { :method => :delete}
- 
+
   map.group_users '/groups/:group_id/users', :controller => 'users', :action => 'index_for_group'
+### ------------------------------------------------------------------------------------------------------------------------ ###
+### BWE note:  :controller => 'mapss' seems erroneous (extraneous 's' in 'mapss')
+### ------------------------------------------------------------------------------------------------------------------------ ###
   map.group_maps '/groups/:group_id/maps', :controller => 'mapss', :action => 'index_for_map'
 
   map.resources :imports, :member => {:maps => :get, :start => :get, :status => :get }
- 
-  
+
+
+
+
+
   # The priority is based upon order of creation: first created -> highest priority.
 
 
